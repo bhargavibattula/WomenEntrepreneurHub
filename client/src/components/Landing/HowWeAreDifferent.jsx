@@ -1,135 +1,164 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Users, Lock, Target, Globe, HeartHandshake, Sparkles, Network } from 'lucide-react';
-import { cn } from '../../utils/cn';
 import { Link } from 'react-router-dom';
+import { Sparkles, ArrowRight } from 'lucide-react';
+import { cn } from '../../utils/cn';
 
-const features = [
+const differences = [
   {
-    icon: <Target className="w-6 h-6 text-blue-600" />,
+    num: "01",
     title: "Tailored Resources",
-    description: "Mentorship and resources specifically designed for women entrepreneurs."
+    description: "Mentorship and resources specifically designed for the unique challenges women entrepreneurs face."
   },
   {
-    icon: <Users className="w-6 h-6 text-blue-600" />,
+    num: "02",
     title: "Collaboration First",
-    description: "Focus on collaboration over competition, fostering community growth."
+    description: "A strict focus on collaboration over competition, fostering genuine community growth."
   },
   {
-    icon: <Lock className="w-6 h-6 text-blue-600" />,
-    title: "Safe & Inclusive Space",
-    description: "A respectful environment for personal and professional growth."
+    num: "03",
+    title: "Safe & Inclusive",
+    description: "A highly respectful environment engineered for both personal and professional growth."
   },
   {
-    icon: <Network className="w-6 h-6 text-blue-600" />,
+    num: "04",
     title: "Meaningful Connections",
-    description: "Tools for showcasing businesses and building lasting relationships."
+    description: "Advanced tools for showcasing businesses and building lasting, high-value relationships."
   },
   {
-    icon: <BookOpen className="w-6 h-6 text-blue-600" />,
+    num: "05",
     title: "Exclusive Content",
-    description: "Addressing unique challenges women face in business."
+    description: "Direct access to content addressing the nuances of building a business as a woman."
   },
   {
-    icon: <Globe className="w-6 h-6 text-blue-600" />,
+    num: "06",
     title: "Global Reach",
-    description: "Local and global networking opportunities to expand your horizons."
+    description: "Local roots with global networking opportunities to expand your horizons infinitely."
   },
   {
-    icon: <HeartHandshake className="w-6 h-6 text-blue-600" />,
+    num: "07",
     title: "Community Driven",
-    description: "Emphasis on community-driven support and guidance."
+    description: "An unwavering emphasis on community-driven support, guidance, and peer mentorship."
   },
   {
-    icon: <Sparkles className="w-6 h-6 text-blue-600" />,
-    title: "Empowerment",
-    description: "Empowering women to thrive and succeed together."
+    num: "08",
+    title: "True Empowerment",
+    description: "Empowering women to not just survive, but to thrive and succeed together at scale."
   }
 ];
 
 const HowWeAreDifferent = () => {
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 -mr-40 -mt-40 w-96 h-96 rounded-full bg-blue-100 blur-3xl opacity-50 pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 -ml-40 -mb-40 w-96 h-96 rounded-full bg-indigo-100 blur-3xl opacity-50 pointer-events-none"></div>
+    <section className="py-32 bg-white relative overflow-hidden pointer-events-auto">
+      {/* Decorative ambient background */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-blue-50 to-indigo-50/30 rounded-full blur-[120px] opacity-70 -z-10 pointer-events-none translate-x-1/3 -translate-y-1/4"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pointer-events-auto">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-blue-600 font-semibold tracking-wide uppercase text-sm mb-3">
-              The FEMPOWER Difference
-            </h2>
-            <h3 className="text-4xl font-extrabold text-slate-900 sm:text-5xl tracking-tight mb-6">
-              Designed for your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">success</span>
-            </h3>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              We go beyond offering a platform. We’re creating a space that’s truly empowering and inclusive, built specifically to meet the unique needs of women in business.
-            </p>
-          </motion.div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div className="flex flex-col lg:flex-row gap-20">
+          
+          {/* Sticky Left Column */}
+          <div className="w-full lg:w-5/12 lg:sticky lg:top-32 self-start">
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={cn(
-                "group relative bg-white p-8 rounded-2xl border border-slate-100",
-                "shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]",
-                "transition-all duration-300 ease-in-out hover:-translate-y-1"
-              )}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none"></div>
-              
-              <div className="relative z-10">
-                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-100 transition-all duration-300">
-                  {feature.icon}
-                </div>
-                <h4 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h4>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 mb-8">
+                <Sparkles className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-semibold text-blue-700 tracking-wide">
+                  The FEMPOWER Difference
+                </span>
               </div>
+              
+              <h2 className="text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6">
+                Designed <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                  differently.
+                </span>
+              </h2>
+              
+              <p className="text-xl text-slate-600 leading-relaxed mb-10">
+                We go beyond just offering a platform. We’re creating a space that’s truly empowering and inclusive, engineered from the ground up for women in business.
+              </p>
+
+              {/* Minimal CTA */}
+              <Link 
+                to="/auth/register"
+                className="group inline-flex items-center gap-3 text-lg font-bold text-slate-900 hover:text-blue-600 transition-colors"
+              >
+                Experience it yourself 
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 group-hover:bg-blue-100 transition-colors">
+                  <ArrowRight className="w-5 h-5 text-slate-900 group-hover:text-blue-600 transition-colors" />
+                </span>
+              </Link>
             </motion.div>
-          ))}
+          </div>
+
+          {/* Scrolling Right Column (List) */}
+          <div className="w-full lg:w-7/12 flex flex-col gap-12 lg:gap-16">
+            {differences.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group relative flex gap-6 lg:gap-8"
+              >
+                {/* Huge Background Number */}
+                <div className="absolute -left-4 -top-8 text-[120px] font-black text-slate-50 opacity-50 group-hover:text-blue-50 transition-colors duration-500 pointer-events-none select-none z-0">
+                  {item.num}
+                </div>
+                
+                {/* Content */}
+                <div className="relative z-10 pt-4 flex-1 border-t-2 border-slate-100 group-hover:border-blue-200 transition-colors duration-500">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
         </div>
 
-        {/* CTA Section embedded in the difference section */}
+        {/* Global CTA Banner at the bottom */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-20 relative rounded-3xl overflow-hidden bg-slate-900"
+          transition={{ duration: 0.8 }}
+          className="mt-32 relative rounded-[2.5rem] overflow-hidden bg-slate-900 shadow-2xl"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 mix-blend-overlay"></div>
+          {/* subtle pattern */}
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           
-          <div className="relative p-10 md:p-16 flex flex-col md:flex-row items-center justify-between z-10">
-            <div className="max-w-2xl text-center md:text-left mb-8 md:mb-0">
-              <h4 className="text-3xl font-bold text-white mb-4">Get the happiness you deserve</h4>
-              <p className="text-slate-300 text-lg">
-                No matter the challenge, you don't have to face it alone - but it’s up to you to take the first step.
+          <div className="relative p-12 md:p-20 flex flex-col lg:flex-row items-center justify-between z-10 gap-8">
+            <div className="max-w-2xl text-center lg:text-left">
+              <h4 className="text-4xl font-extrabold text-white tracking-tight mb-4">
+                Get the happiness you deserve
+              </h4>
+              <p className="text-slate-300 text-xl leading-relaxed">
+                No matter the challenge, you don't have to face it alone. It’s up to you to take the first step.
               </p>
             </div>
             <div className="flex-shrink-0">
               <Link 
                 to="/auth/register" 
-                className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-blue-700 bg-white rounded-full shadow-lg hover:bg-blue-50 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-white"
+                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-slate-900 bg-white rounded-full shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 focus:outline-none"
               >
-                Join Us Today
+                Join FEMPOWER
               </Link>
             </div>
           </div>
         </motion.div>
+
       </div>
     </section>
   );
