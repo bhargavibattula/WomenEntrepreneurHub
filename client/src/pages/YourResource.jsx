@@ -46,7 +46,7 @@ function YourResource() {
   }, [])
 
   return (
-    <div className='min-h-screen bg-white p-6'>
+    <div className='min-h-screen bg-white p-6 pt-20 md:pt-28'>
       <div className='max-w-7xl mx-auto'>
         <div className='flex gap-5 flex-col'>
           <div className="flex justify-between items-center mb-6">

@@ -46,7 +46,7 @@ const BusinessPage = () => {
     getBusiness();
   },[])
   return (
-    <div className="min-h-screen bg-gradient-to-r from-BLUE-500 to-indigo-600 p-6 text-black">
+    <div className="min-h-screen bg-gradient-to-r from-BLUE-500 to-indigo-600 p-6 text-black pt-28">
       <div className="max-w-2xl mx-auto bg-white  rounded-lg p-10 mt-10">
         {/* Business Name and Image */}
         <div className="mb-6 text-center">
