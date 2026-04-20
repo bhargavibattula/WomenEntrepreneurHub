@@ -128,7 +128,7 @@ function ProfileSideNav({ openProfileSideNav, setOpenProfileSideNav }) {
                                 Sign Out
                             </button>
                             <p className="text-center text-[10px] text-slate-400 mt-6 uppercase tracking-widest font-medium">
-                                FEMPOWER &bull; v1.0.0
+                                WOMEN CONNECT &bull; v1.0.0
                             </p>
                         </div>
                     </motion.div>

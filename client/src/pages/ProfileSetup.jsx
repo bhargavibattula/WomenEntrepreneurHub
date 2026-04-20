@@ -69,7 +69,7 @@ function ProfileSetup() {
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                     <div className="absolute w-64 h-64 bg-white/10 rounded-full blur-[60px] -right-10 -top-10"></div>
                     <h1 className="text-3xl font-extrabold tracking-tight relative z-10 mb-2">Complete Your Profile</h1>
-                    <p className="text-blue-100 text-lg relative z-10">Set up your identity to fully experience the FEMPOWER network.</p>
+                    <p className="text-blue-100 text-lg relative z-10">Set up your identity to fully experience the Women Connect network.</p>
                 </div>
 
                 {/* Form */}

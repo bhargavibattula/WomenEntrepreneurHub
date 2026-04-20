@@ -1,14 +1,14 @@
-# FEMPOWER: Women Entrepreneur Network (WEN) 🚀
+# Women Connect: Women Entrepreneur Network (WEN) 🚀
 
-**FEMPOWER** is a premium, full-stack SaaS platform designed to empower women entrepreneurs by providing a collaborative ecosystem for business management, recruitment, event hosting, and community networking. 
+**Women Connect** is a premium, full-stack SaaS platform designed to empower women entrepreneurs by providing a collaborative ecosystem for business management, recruitment, event hosting, and community networking. 
 
 Built with the **MERN stack** and a focus on **High-End Aesthetics**, this platform serves as a bridge between established female founders and aspiring professional women.
 
 ---
 
 ## 🌟 Unique Value Proposition
-What makes **FEMPOWER** different?
-- **Role-Specific Ecosystem**: Unlike generic business tools, FEMPOWER creates distinct experiences for "Entrepreneurs" (Sellers/Hosts) and "Visitors" (Seekers/Attendees).
+What makes **Women Connect** different?
+- **Role-Specific Ecosystem**: Unlike generic business tools, Women Connect creates distinct experiences for "Entrepreneurs" (Sellers/Hosts) and "Visitors" (Seekers/Attendees).
 - **Recruitment Focused**: A built-in job board where female-led startups can find talent specifically within the community.
 - **Real-time Collaboration**: Integrated community chat and live event integration (Jitsi) for immediate networking.
 - **Premium Design System**: A state-of-the-art UI/UX built with Tailwind CSS, Framer Motion, and Lucide icons, making professional management feel elegant.

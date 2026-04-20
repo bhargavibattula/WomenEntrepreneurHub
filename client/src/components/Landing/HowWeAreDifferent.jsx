@@ -67,7 +67,7 @@ const HowWeAreDifferent = () => {
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 mb-8">
                 <Sparkles className="w-4 h-4 text-blue-600" />
                 <span className="text-sm font-semibold text-blue-700 tracking-wide uppercase">
-                  The FEMPOWER Difference
+                  The Women Connect Difference
                 </span>
               </div>
               

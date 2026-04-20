@@ -83,10 +83,10 @@ function Navbar() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 z-50">
               <div className="w-10 h-10 rounded-xl overflow-hidden bg-white shadow-sm flex items-center justify-center">
-                <img src={Logo} alt="FEMPOWER" className="w-full h-full object-cover" />
+                <img src={Logo} alt="Women Connect" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-extrabold text-slate-900 tracking-tight uppercase">
-                FEMPOWER
+                Women Connect
               </span>
             </Link>
 
@@ -242,7 +242,7 @@ function Navbar() {
                       to="/auth/register" 
                       className="w-full text-center py-3 rounded-xl text-white font-bold bg-blue-600 shadow-lg shadow-blue-600/20"
                     >
-                      Join FEMPOWER
+                      Join Women Connect
                     </Link>
                   </div>
                 )}

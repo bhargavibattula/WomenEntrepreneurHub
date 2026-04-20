@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Brand & About (Takes up more space) */}
           <div className="lg:col-span-4 flex flex-col pr-8">
             <h2 className="text-2xl font-extrabold text-black uppercase tracking-tight mb-6">
-              Fempower
+              Women Connect
             </h2>
             <p className="text-black/80 text-sm leading-relaxed mb-8 max-w-sm">
               The Women Entrepreneur Network is dedicated to empowering women through entrepreneurship, providing exclusive resources, global networking opportunities, and unwavering support.
