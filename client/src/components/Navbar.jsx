@@ -1,142 +1,245 @@
-import {Link} from "react-router-dom"
-import {motion} from "framer-motion"
-import {FaAngleDown ,} from "react-icons/fa"
-import {AiOutlineMenu , AiOutlineClose ,} from "react-icons/ai"
-import { useEffect, useState , useRef } from "react"
-import { navItems } from "../lib/utils.js"
-import Logo from '../assets/TREELOGO.jpg'
-import { useStore } from "../store/index.js"
-import { apiClient } from "../lib/api-clinet.js"
-import { HOST, LOGOUT_ROUTE } from "../utils/constants.js"
-import { toast } from "react-toastify"
-import ProfileSideNav from "./ProfileSideNav.jsx"
-
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { navItems } from "../lib/utils.js";
+import Logo from '../assets/TREELOGO.jpg';
+import { useStore } from "../store/index.js";
+import { HOST } from "../utils/constants.js";
+import ProfileSideNav from "./ProfileSideNav.jsx";
+import { cn } from "../utils/cn.js";
 
 function Navbar() {
- const [openProfileSideNav , setOpenProfileSideNav] = useState(false);
-  const [openSideNav , setOpenSideNav] = useState(false);
-  const [section, setsection] = useState(-1);
-  const boxRef = useRef(null);
-  const sideNavRef = useRef(null);
-  const {userInfo , setUserInfo} = useStore();
-  useEffect(() => { 
-    const handleClick = (event) => {
-        if(boxRef.current && !boxRef.current.contains(event.target)) {
-            setsection(-1);
-        }
-    }
+  const [openProfileSideNav, setOpenProfileSideNav] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+  
+  const navRef = useRef(null);
+  const { userInfo } = useStore();
+  const location = useLocation();
 
-    document.addEventListener("mousedown", handleClick)
+  // Handle scroll to add background to navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    return (() => {
-        document.removeEventListener("mousedown", handleClick)
-    })
+  // Click outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  }  , []);
-
-
-
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setActiveDropdown(null);
+  }, [location.pathname]);
 
   return (
-    
-    <div className='bg-white flex items-center justify-center '>
+    <>
+      <header
+        ref={navRef}
+        className={cn(
+          "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 pointer-events-auto",
+          scrolled ? "bg-white/80 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 z-50">
+              <div className="w-10 h-10 rounded-xl overflow-hidden bg-white shadow-sm flex items-center justify-center">
+                <img src={Logo} alt="FEMPOWER" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-xl font-extrabold text-slate-900 tracking-tight uppercase">
+                FEMPOWER
+              </span>
+            </Link>
 
-        <motion.div
-            initial={{opacity : 0 , y : 10}}
-            animate={{opacity : 1 , y : 0}}
-            exit={{opacity : 0}}
-            className="lg:max-w-[1300px]   w-full xl:w-fit  h-full p-3 lg:p-0  flex items-center  md:gap-x-16 lg:gap-x-36  justify-between">
+            {/* Desktop Navigation */}
+            <nav className="hidden xl:flex items-center gap-1">
+              {Object.keys(navItems).map((key) => (
+                <div
+                  key={key}
+                  className="relative"
+                  onMouseEnter={() => setActiveDropdown(key)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <button className="flex items-center gap-1 px-4 py-2 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors font-medium capitalize">
+                    {key}
+                    <ChevronDown className={cn(
+                      "w-4 h-4 transition-transform duration-200",
+                      activeDropdown === key ? "rotate-180" : ""
+                    )} />
+                  </button>
 
-            <motion.div onClick={() => setOpenSideNav((prev) => !prev)}  className="xl:hidden block p-2  cursor-pointer hover:bg-gray-200 text-xl border border-gray-400 rounded-lg">
-                <AiOutlineMenu/>
-            </motion.div>
-
-            <div className="logo lg:p-2">
-                <Link to="/" className="flex gap-3 items-center w-full">
-                    <img src={Logo} height="50" width="50" alt="M"  />
-                    <span className="whitespace-nowrap uppercase font-medium">Fempower  </span>
-                </Link>
-            </div>
-
-            <nav ref={sideNavRef} className={`h-screen z-50  xl:space-y-0 space-y-3  xl:p-0  w-48 xl:w-auto xl:h-full  fixed top-0 bottom-0  transition-all  duration-300 ${openSideNav ? "left-0" : "left-[-100%]"} xl:block bg-white xl:static `}>
-                <div className="flex xl:hidden  items-center justify-end"> <AiOutlineClose onClick={() => setOpenSideNav(false)} className="cursor-pointer m-1"/> </div>
-                <div className="logo p-2 xl:hidden block">
-                    <Link to="/" className="flex gap-3 items-center w-full">
-                        <img src={Logo} height="40" width="40" alt="M"  />
-                        <span className="whitespace-nowrap uppercase font-medium">Fempower  </span>
-                    </Link>
+                  {/* Desktop Dropdown */}
+                  <AnimatePresence>
+                    {activeDropdown === key && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-56"
+                      >
+                        <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 overflow-hidden py-2 relative">
+                          {/* Triangle pointer */}
+                          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-t border-l border-slate-100 rotate-45"></div>
+                          
+                          <div className="relative z-10 flex flex-col">
+                            {navItems[key].map((item) => (
+                              <Link
+                                key={item.path}
+                                to={item.path}
+                                className="px-4 py-2.5 mx-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-colors capitalize"
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-
-                <ul className="flex flex-col xl:h-[67px] xl:flex-row xl:gap-10 text-opacity-65 items-start xl:items-center xl:justify-center">
-                    {Object.keys(navItems).map((key , index) => (
-                        
-                            <motion.li  key={index}
-                                onClick={() =>{ setsection((prev) => prev = prev == index ? -1 : index)}} className="relative whitespace-nowrap w-full flex xl:px-2 xl:flex-row flex-col items-center gap-2 xl:justify-between px-2 p-1 py-3  xl:rounded-none  xl:py-5 xl:hover:bg-white  xl:hover:border-b-[4px] xl:hover:border-blue-500 hover cursor-pointer "> 
-                                <div className="flex items-center justify-start w-full gap-2">
-                                    <FaAngleDown/> <span className=" capitalize">{key}</span>  
-                                </div>
-                                {index == section && window.innerWidth >= 1280 && 
-                                <motion.div
-                                    ref={boxRef}
-                                    className=" xl:absolute z-50 pointer-events-auto rounded-md xl:block border border-gray-300  xl:left-[-50%] xl:top-[115%] bg-white xl:shadow-2xl px-2 py-2 xl:w-[200%] ">
-                                        <ul className="flex flex-col items-center w-full pt-2 ">
-                                            {navItems[key].map((obj , index ) => {
-                                                return (
-                                                    <Link key={obj.path} to={`${obj.path}`} className="px-3 w-full pointer-events-auto hover:bg-gray-100 py-2 text-xs flex items-center justify-between">  <span>{obj.name}</span>  </Link>
-                                                )
-                                            })}
-                                        </ul>
-                                        <div className="w-5 h-5 z-40 bg-white rotate-45 border-t border-l top-[-10px] left-[50%] border-gray-400 absolute"/>
-                                </motion.div>}
-                                {window.innerWidth < 1280 && (
-                                    <motion.div
-                                        initial={{height : 0}}
-                                        animate={{height : index === section ? "fit-content" : 0 }}
-                                        exit={{height : 0}}
-                                        transition={{ease : "easeInOut" , duration : 0.3}}
-                                        className="overflow-hidden w-full"
-                                    > 
-                                        <ul className="overflow-hidde w-full flex flex-col items-start">
-                                            {navItems[key].map((obj , index ) => {
-                                                return (
-                                                    <Link key={obj.path} to={`${obj.path}`} onClick={() => setOpenSideNav(false)} className="px-3 w-full hover:bg-gray-100 py-2 text-xs ">  <span>{obj.name}</span>  </Link>
-                                                )
-                                            })}
-                                        </ul>
-                                    </motion.div>
-                                )}
-                            </motion.li>
-                        
-                    ))}
-                </ul>
+              ))}
             </nav>
 
-            <div className="flex items-center   gap-2 justify-between lg:p-2">
-                { !!userInfo ? (
-                
-                        <button onClick={() => setOpenProfileSideNav((prev) => !prev)} className="flex gap-3 px-4  ">
-                            <div className="rounded-full h-12 w-12 overflow-hidden">
-                                <img src={`${HOST}/${userInfo?.profileImage}`} className="object-cover" alt="" />
-                            </div> 
-                            <div className="col-span-2 flex flex-col items-center justify-center ">
-                                <span className="text-xl italic tracking-wide">{userInfo.name}</span>
-                                <span className="text-[.3em] uppercase italic tracking-wide">{userInfo.role}</span>
-                            </div>
-                        </button>
+            {/* Auth / Profile & Mobile Toggle */}
+            <div className="flex items-center gap-4 z-50">
+              {userInfo ? (
+                <button 
+                  onClick={() => setOpenProfileSideNav(!openProfileSideNav)}
+                  className="flex items-center gap-3 px-2 py-1 rounded-full hover:bg-slate-100 transition-colors"
+                >
+                  <div className="text-right hidden sm:block">
+                    <p className="text-sm font-bold text-slate-900 leading-none">{userInfo.name}</p>
+                    <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-1">{userInfo.role}</p>
+                  </div>
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-md">
+                    <img src={`${HOST}/${userInfo.profileImage}`} className="w-full h-full object-cover" alt="Profile" />
+                  </div>
+                </button>
+              ) : (
+                <div className="hidden sm:flex items-center gap-3">
+                  <Link 
+                    to="/auth/login" 
+                    className="px-5 py-2.5 rounded-full text-sm font-bold text-slate-700 hover:bg-slate-100 transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link 
+                    to="/auth/register" 
+                    className="px-5 py-2.5 rounded-full text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20 transition-all hover:scale-105"
+                  >
+                    Join Us
+                  </Link>
+                </div>
+              )}
+
+              {/* Mobile Menu Toggle */}
+              <button 
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="xl:hidden p-2 rounded-full text-slate-600 hover:bg-slate-100 transition-colors"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu Drawer */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "100vh" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute top-full left-0 right-0 bg-white border-t border-slate-100 overflow-y-auto xl:hidden shadow-2xl h-screen pb-32"
+            >
+              <div className="px-4 py-6 flex flex-col gap-2">
+                {Object.keys(navItems).map((key) => (
+                  <div key={key} className="border-b border-slate-100 last:border-0 pb-2">
+                    <button 
+                      onClick={() => setActiveDropdown(activeDropdown === key ? null : key)}
+                      className="flex items-center justify-between w-full py-4 text-lg font-bold text-slate-900 capitalize"
+                    >
+                      {key}
+                      <ChevronDown className={cn(
+                        "w-5 h-5 transition-transform text-slate-400",
+                        activeDropdown === key ? "rotate-180 text-blue-600" : ""
+                      )} />
+                    </button>
                     
-                ) : (
-                    <>
-                        <Link to={"/auth/login"} className="border whitespace-nowrap text-blue-500 border-blue-500 py-2 px-3 lg:px-5  lg:text-xl hover:bg-blue-500 hover:text-white  tracking-wider flex items-center justify-center">sign in</Link>
-                        <Link to={"/auth/register"} className="bg-blue-500 text-white py-2 px-5  lg:text-xl hover:bg-blue-400 shadow-lg tracking-wider flex items-center justify-center">Join</Link>
-                    </>
+                    <AnimatePresence>
+                      {activeDropdown === key && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="flex flex-col gap-2 pb-4 pl-4 border-l-2 border-blue-100 ml-2">
+                            {navItems[key].map((item) => (
+                              <Link
+                                key={item.path}
+                                to={item.path}
+                                className="py-2 text-slate-600 hover:text-blue-600 font-medium capitalize"
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
+                
+                {/* Mobile Auth Buttons if not logged in */}
+                {!userInfo && (
+                  <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-slate-100 sm:hidden">
+                    <Link 
+                      to="/auth/login" 
+                      className="w-full text-center py-3 rounded-xl text-slate-700 font-bold bg-slate-100"
+                    >
+                      Sign In
+                    </Link>
+                    <Link 
+                      to="/auth/register" 
+                      className="w-full text-center py-3 rounded-xl text-white font-bold bg-blue-600 shadow-lg shadow-blue-600/20"
+                    >
+                      Join FEMPOWER
+                    </Link>
+                  </div>
                 )}
-            </div>   
-        </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
 
-        <ProfileSideNav userInfo={userInfo} setOpenProfileSideNav={setOpenProfileSideNav} openProfileSideNav={openProfileSideNav}/>
-
-    </div>
-  )
+      {/* Profile Sidebar */}
+      <ProfileSideNav 
+        userInfo={userInfo} 
+        setOpenProfileSideNav={setOpenProfileSideNav} 
+        openProfileSideNav={openProfileSideNav}
+      />
+    </>
+  );
 }
 
-export default Navbar
+export default Navbar;
