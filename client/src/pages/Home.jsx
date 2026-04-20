@@ -8,7 +8,7 @@ import Hero from '../components/Landing/Hero';
 function Home({ userInfo }) { 
   return (
       
-      <div className="flex flex-col min-h-screen z-0 pointer-events-none">
+      <div className="flex flex-col min-h-screen z-0 pointer-events-auto">
 
         <Hero />
 

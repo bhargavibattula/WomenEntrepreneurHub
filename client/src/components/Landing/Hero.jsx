@@ -7,7 +7,7 @@ import homeDesign from "../../assets/HomeDesign.png";
 
 const Hero = () => {
   return (
-    <div className="relative min-h-screen pt-0 pb-16 overflow-hidden bg-slate-50 flex items-center pointer-events-auto">
+    <div className="relative min-h-screen pt-20 md:pt-28 pb-16 overflow-hidden bg-slate-50 flex items-center pointer-events-auto">
       {/* Background Gradients & Blurs */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-blue-100/40 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute top-1/4 right-0 translate-x-1/3 w-[800px] h-[800px] bg-indigo-100/50 rounded-full blur-[120px] pointer-events-none"></div>
