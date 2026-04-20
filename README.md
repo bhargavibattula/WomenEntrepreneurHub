@@ -73,32 +73,65 @@ The community role designed for professionals and learners.
 
 ## 📸 Platform Showcase (Screenshots)
 
-<div align="center">
-  <h3>🏠 Landing & Authentication</h3>
-  <img src="client/src/assets/sc1.png" alt="Home Page" width="400px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc11.png" alt="Login" width="400px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc12.png" alt="Register" width="400px" style="border-radius: 12px; margin: 5px;" />
-  
-  <h3>💼 Business & Jobs</h3>
-  <img src="client/src/assets/sc2.png" alt="Job Listings" width="400px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc8.png" alt="Job Details" width="400px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc3.png" alt="Dashboard" width="400px" style="border-radius: 12px; margin: 5px;" />
-  
-  <h3>🤝 Community & Events</h3>
-  <img src="client/src/assets/sc5.png" alt="Community Chat" width="400px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc6.png" alt="Events Hub" width="400px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc13.png" alt="Event Page" width="400px" style="border-radius: 12px; margin: 5px;" />
-  
-  <h3>📚 Resources & Profile</h3>
-  <img src="client/src/assets/sc7.png" alt="Resource Hub" width="400px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc4.png" alt="Profile Setup" width="400px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc14.png" alt="User Profile" width="400px" style="border-radius: 12px; margin: 10px;" />
+### 🏠 1. Landing Page Experience
+The gateway to Women Connect, featuring a premium design and clear calls to action.
+<img src="client/src/assets/sc1.png" alt="Home Page" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
 
-  <h3>📱 Responsive & Admin</h3>
-  <img src="client/src/assets/sc9.png" alt="Mobile Experience" width="260px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc10.png" alt="Application Management" width="260px" style="border-radius: 12px; margin: 5px;" />
-  <img src="client/src/assets/sc15.png" alt="Admin View" width="260px" style="border-radius: 12px; margin: 5px;" />
-</div>
+### 🔐 2. Professional Authentication (Login)
+Custom-branded, blue-themed login experience.
+<img src="client/src/assets/sc11.png" alt="Login" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 📝 3. User Registration
+Streamlined onboarding for diverse women founders.
+<img src="client/src/assets/sc12.png" alt="Register" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### ⚙️ 4. Profile Setup & Role Selection
+Role-based onboarding to tailor the platform experience.
+<img src="client/src/assets/sc4.png" alt="Profile Setup" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 💼 5. Career Opportunities (Job Portal)
+The professional blue-themed job listing board.
+<img src="client/src/assets/sc2.png" alt="Job Listings" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 📄 6. Job Details & Application
+Comprehensive view of roles with direct application capabilities.
+<img src="client/src/assets/sc8.png" alt="Job Details" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 📊 7. Entrepreneur Dashboard
+Centralized management for businesses, jobs, and events.
+<img src="client/src/assets/sc3.png" alt="Dashboard" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 💬 8. Real-time Community Hub
+Instant networking via Socket.io powered global chat.
+<img src="client/src/assets/sc5.png" alt="Community Chat" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 📅 9. Events Management
+Discover and register for professional workshops and summits.
+<img src="client/src/assets/sc6.png" alt="Events Hub" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 🎥 10. Live Event View
+Dedicated space for event information and virtual networking.
+<img src="client/src/assets/sc13.png" alt="Event Page" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 📚 11. Resource & Knowledge Hub
+Sharing insights through expert articles and success stories.
+<img src="client/src/assets/sc7.png" alt="Resource Hub" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 👤 12. User Profile (Entrepreneur)
+Professional identity showcase for network credibility.
+<img src="client/src/assets/sc14.png" alt="User Profile" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 📱 13. Mobile Optimized Experience
+Fully responsive design ensuring professional management on the go.
+<img src="client/src/assets/sc9.png" alt="Mobile Experience" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 📑 14. Application Tracking System
+Efficient candidate review and status management for founders.
+<img src="client/src/assets/sc10.png" alt="Application Management" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
+### 🛠 15. Advanced Management (Admin/Founder View)
+Deep-level control over platform assets and community engagement.
+<img src="client/src/assets/sc15.png" alt="Admin View" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
 
 ---
 
