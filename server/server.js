@@ -25,11 +25,23 @@ const server = http.createServer(app);
 
 
 // middlewares
+const allowedOrigins = [
+    "https://women-entrepreneur-hub-q9ox.vercel.app",
+    "http://localhost:5173",
+    process.env.CLIENT_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"]
 }));
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
