@@ -123,13 +123,12 @@ export const login = async (req , res) => {
 
 export const logout = async (req  , res) => {
     res.clearCookie("authToken", {
-        httpOnly: true, // Match the cookie's httpOnly option
-        sameSite: "strict", // Same sameSite policy as when setting
-        secure: process.env.NODE_ENV === "production", // Match secure setting
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
         path : "/"
     });
-    console.log(res.cookie.authToken)
-    res.status(200).json({message : "user logedout succussfully"})
+    res.status(200).json({message : "user logedout succussfully" , success : true})
 }
 
 export const forgotPassword = async (req , res) => {
