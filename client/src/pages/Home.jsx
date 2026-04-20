@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import homeDesign from '../assets/HomeDesign.png'
 import VideoCourousal from '../components/VideoCourousal';
 import Features from '../components/Landing/Features';
+import HowWeAreDifferent from '../components/Landing/HowWeAreDifferent';
 
 function Home({ userInfo }) { 
   return (
@@ -78,47 +79,7 @@ function Home({ userInfo }) {
 
 
         {/* "How We're Different" Section */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }} 
-          animate={{ opacity: 1, scale: 1 }} 
-          transition={{ duration: 0.5 }} 
-          className="bg-blue-500  place-items-center grid grid-cols-3 gap-5 text-white p-10 rounded-lg shadow-lg mt-20   "
-        >
-          <div className=" flex flex-col col-span-2">
-            <h2 className="text-3xl font-bold">How We're Different</h2>
-            <p className="text-BLACK text-lg mt-4">
-            At FEMPOWER, we go beyond just offering a platform for women entrepreneurs to connect.
-            We’re creating a space that’s truly empowering and inclusive, designed specifically 
-            to meet the unique needs of women in business. Here's how we stand out            </p>
-            <p> 1. Tailored resources and mentorship specifically for women entrepreneurs. </p> 
-            <p>2. Focus on collaboration over competition, fostering community growth.</p>  
-            <p>3. Exclusive content addressing challenges women face in business.</p> 
-            <p>4. Tools for showcasing businesses and building meaningful connections.</p>  
-            <p>5. Safe, respectful, and inclusive space for personal and professional growth.</p>  
-            <p>6. Local and global networking opportunities.</p>  
-            <p>7. Emphasis on community-driven support and guidance.</p>  
-            <p>8. Empowering women to thrive and succeed together.</p>
-
-
-          </div>
-          <motion.div
-                initial={{opacity : 0 , y : 50}}
-                animate={{opacity : 1 , y : 0}} exit={{opacity : 0 , y : 50}} transition={{ ease :"easeInOut" ,duration : 0.3}}
-            className="bg-white col-span-1 flex flex-col   gap-5 border text-black border-gray-200 shadow-lg p-6 w-[400px]">
-                <div className="overflow-hidden  flex items-center justify-center">
-                    <img
-                        src={image}
-                        className="object-cover w-full h-full  bg-cover bg-center" 
-                        alt="women empowerment"
-                        />
-                </div>
-                <h1 className="text-2xl">Get the happiness you deserve</h1>
-                <p>No matter the challenge, you don't have to face it alone - but it’s up to you to take the first step.</p>
-                <Link to={"/auth/register"} className="w-full pointer-events-auto flex items-center justify-center tracking-wider text-xl focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200  text-white py-2 bg-blue-600">
-                    Join us
-                </Link>
-            </motion.div>
-        </motion.div>
+        <HowWeAreDifferent />
 
 
       </div>
