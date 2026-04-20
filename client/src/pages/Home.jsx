@@ -9,6 +9,7 @@ import homeDesign from '../assets/HomeDesign.png'
 import VideoCourousal from '../components/VideoCourousal';
 import Features from '../components/Landing/Features';
 import HowWeAreDifferent from '../components/Landing/HowWeAreDifferent';
+import WhatIsWen from '../components/Landing/WhatIsWen';
 
 function Home({ userInfo }) { 
   return (
@@ -48,20 +49,7 @@ function Home({ userInfo }) {
           </div>
         </div>
 
-        <div className='w-full h-screen flex flex-wrap gap-3  relative'>
-          <div className="flex items-center justify-center  flex-1">
-            <div className='flex flex-col flex-wrap gap-5 '>
-              <div className='text-3xl uppercase text-blue-500 tracking-wider'>WHAT IS WEN ?</div>
-              <p className='text-xs w-[300px]'>Women Entrepreneur Networking connects women business owners, fostering collaboration, mentorship, and mutual support. It helps women overcome challenges, share resources, and access growth opportunities. Through networking, entrepreneurs build partnerships, exchange valuable business insights, and gain access to mentorship from experienced leaders. Networking events, workshops, and online communities provide platforms for learning and inspiration. It empowers women to thrive in male-dominated industries by offering emotional and professional support. This collaborative environment helps women scale their businesses, navigate challenges, and succeed together. Ultimately, it creates a supportive space for women entrepreneurs to grow and excel.</p>
-            </div>
-          </div>
-          <div className='flex-1 place-self-center h-80 w-72'>
-              <img src={home3} alt="" />
-          </div>
-          <div className="absolute bottom-[54px] left-0">
-              <img src={home2} alt="" />
-          </div>
-        </div>
+        <WhatIsWen />
 
         <section id="highlights" className='w-screen pointer-events-auto h-full bg-zinc overflow-hidden common-padding '>
           <div className='screen-max-width '>
