@@ -5,7 +5,7 @@ import { REGISTER_ROUTE } from "../utils/constants";
 import { toast } from "react-toastify";
 import { apiClient } from "../lib/api-clinet";
 import { User, Mail, Lock, UserPlus, ArrowRight, ShieldCheck } from "lucide-react";
-import image1 from "../assets/WOMEN-2.webp";
+import image1 from "../assets/wen_logo.png";
 
 function Register() {
     const navigate = useNavigate();

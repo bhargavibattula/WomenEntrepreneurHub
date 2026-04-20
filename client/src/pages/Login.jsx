@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import womenbg from "../assets/woemnemp.jpeg";
+import womenbg from "../assets/wen_logo.png";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { apiClient } from "../lib/api-clinet";
