@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Menu, X, ShieldAlert } from "lucide-react";
 import { navItems } from "../lib/utils.js";
-import Logo from '../assets/logo.svg';
+import Logo from '../assets/TREELOGO.jpg';
 import { useStore } from "../store/index.js";
 import { HOST } from "../utils/constants.js";
 import ProfileSideNav from "./ProfileSideNav.jsx";
