@@ -1,24 +1,30 @@
-import { set } from "date-fns";
-import {motion} from "framer-motion" 
-import { useState } from "react";
-import { countriesWithStates } from "../lib/utils";
-import image from "../assets/BUSINESSIMAGE.webp"
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 import { apiClient } from "../lib/api-clinet";
-import { AiOutlineDelete } from "react-icons/ai";
-import { POST_A_BUSINESS } from "../utils/constants";
+import { POST_A_BUSINESS, UPDATE_BUSINESS_BY_ID, HOST } from "../utils/constants";
 import { toast } from "react-toastify";
-
+import { countriesWithStates } from "../lib/utils";
+import image from "../assets/BUSINESSIMAGE.webp";
+import { Briefcase, Globe, MapPin, Tag, Info, Upload, X, ChevronRight } from "lucide-react";
 
 function CreateBusiness() {
-  const [name , setName] = useState("");
-  const [description , setDescription] = useState("");
-  const [category, setCategory] = useState("Tech Innovation")
-  const [website, setWebsite] = useState("");
-  const [country, setCountry] = useState("India");
-  const [state, setState] = useState("Andhra Pradesh")
-  const [loading , setLoading] = useState(false);
-  const [logoImage , setLogoImage] = useState(null);
-  const [selectedTags , setSelectedTags] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const editMode = location.state?.editMode || false;
+  const initialData = location.state?.businessData || null;
+
+  const [name, setName] = useState(initialData?.name || "");
+  const [description, setDescription] = useState(initialData?.description || "");
+  const [category, setCategory] = useState(initialData?.category || "Tech Innovation");
+  const [website, setWebsite] = useState(initialData?.website || "");
+  const [country, setCountry] = useState(initialData?.country || "India");
+  const [state, setState] = useState(initialData?.state || "Andhra Pradesh");
+  const [selectedTags, setSelectedTags] = useState(initialData?.tags ? (Array.isArray(initialData.tags) ? initialData.tags : initialData.tags.split(',')) : []);
+  const [logoImage, setLogoImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(initialData?.logoImage ? `${HOST}/${initialData.logoImage}` : null);
+  const [loading, setLoading] = useState(false);
+
   const tags = [
     'retail', 'restaurant', 'tech', 'consulting', 'manufacturing', 'healthcare',
     'finance', 'education', 'real-estate', 'entertainment', 'automotive', 'hospitality',
@@ -28,189 +34,253 @@ function CreateBusiness() {
     'supply-chain', 'production', 'sales', 'development', 'AI', 'blockchain', 
     'SaaS', 'financial', 'insurance', 'mortgage', 'tourism', 'event', 'repair'
   ];
-  const handleSelectTag = (i) => {
-    if(selectedTags.indexOf(tags[i]) == -1) {
-      setSelectedTags([...selectedTags , tags[i]])
+
+  const handleSelectTag = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
     }
-  }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setLogoImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    
     const formData = new FormData();
-    formData.append("logoImage" , logoImage);
-    formData.append("name" , name);
-    formData.append("category" , category);
-    formData.append("country" , country );
-    formData.append("state" , state );
-    formData.append("description" , description);
-    formData.append("tags" ,selectedTags);
-    formData.append("website",website);
+    if (logoImage) formData.append("logoImage", logoImage);
+    formData.append("name", name);
+    formData.append("category", category);
+    formData.append("country", country);
+    formData.append("state", state);
+    formData.append("description", description);
+    formData.append("tags", selectedTags.join(','));
+    formData.append("website", website);
+
     try {
-      setLoading(true)
-       const response = await apiClient.post(POST_A_BUSINESS,formData , {withCredentials : true});
-
-       if(!response.data.success) {
-          toast.error(response.data.message)
-          setLoading(false);
-          return ;
-       }
-
-       setLoading(false);
-       toast.success(response.data.message);
-       setCategory("")
-       setCountry("India")
-       setDescription("");
-       setLogoImage(null);
-       setName("")
-       setWebsite("")
-       setSelectedTags([]);
-
+      if (editMode && initialData?._id) {
+        const response = await apiClient.patch(`${UPDATE_BUSINESS_BY_ID}/${initialData._id}`, formData, { withCredentials: true });
+        if (response.data.success || response.status === 200) {
+          toast.success("Business updated successfully!");
+          navigate("/your-businesses");
+        }
+      } else {
+        const response = await apiClient.post(POST_A_BUSINESS, formData, { withCredentials: true });
+        if (response.data.success || response.status === 200) {
+          toast.success("Business created successfully!");
+          navigate("/your-businesses");
+        }
+      }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
       setLoading(false);
     }
+  };
 
-  }
-  
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setLogoImage(file);
-    console.log(file)
-  }
-
-
-
-
-  console.log(logoImage)
   return (
-    <div>
-        <div className='h-[300px] flex items-center justify-center'>
-            <div className='w-full p-5 flex items-center bg-white/20 backdrop-blur-sm justify-center'>
-                <motion.span initial={{opacity : 0 , y : 50}} animate={{opacity : 1 , y : 0}} exit={{opacity : 0 , y : 50}} transition={{ ease :"easeInOut" ,duration : 0.3}} className='sm:mr-20 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-wider' >Showcase Your Business</motion.span>
+    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 pt-28">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
+          
+          {/* Left Column: Form */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex-1 bg-white rounded-[2.5rem] shadow-xl shadow-blue-900/5 p-8 md:p-12"
+          >
+            <div className="mb-10 text-center lg:text-left">
+              <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+                {editMode ? "Edit Your Business" : "Register Your Business"}
+              </h1>
+              <p className="text-slate-500 font-medium">
+                {editMode ? "Keep your business profile up to date for potential partners." : "Join our network and showcase your venture to the world."}
+              </p>
             </div>
-        </div>
 
-        <div className="bg-white flex items-center justify-center flex-wrap p-5 gap-x-20 gap-10 ">
-
-                <motion.div 
-                    initial={{opacity : 0 , y : 50}}
-                    animate={{opacity : 1 , y : 0}} exit={{opacity : 0 , y : 50}} transition={{ ease :"easeInOut" ,duration : 0.3}}
-                    className=" bg-white p-3 items-center gap-2 justify-center basis-[600px] flex flex-col "
-                >
-
-                    <span className=" text-xl tracking-wider w-full  py-3 capitalize text-center"> CREATE AND SHOWCASE YOUR BUSINESS </span>
-                    <form onSubmit={handleSubmit}  className="flex flex-col gap-4 w-full">
-                        <input
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            type="text"
-                            required
-                            placeholder="name of business"
-                            className="w-full placeholder-shown tracking-wider p-2 border border-gray-300  focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200"
-                        />
-                        <textarea
-                            value={description}
-                            onChange={(e)=>{setDescription(e.target.value)}}
-                            type="text"
-                            required
-                            placeholder="description about your business"
-                            className="w-full placeholder-shown tracking-wider p-2 border border-gray-300  focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200"
-                        />
-                       <span className="text-xs text-gray-700 text-opacity-50">provide your website link (if exits) so that , other can visit</span>
-                        <input
-                            value={website}
-                            onChange={(e) => setWebsite(e.target.value)}
-                            type="text"
-                            required
-                            placeholder="link of your website"
-                            className="w-full placeholder-shown tracking-wider p-2 border border-gray-300  focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200"
-                        />
-                        <select name="business-type"
-                              className="w-full flex-1 p-2 border border-gray-300 focus:outline-none focus:ring-4 cursor-pointer tracking-widest focus:ring-blue-400 focus:ring-offset-1 focus:ring-offset-white focus:border-blue-400 transition duration-200"
-                              value={category}
-                              onChange={(e) => {setCategory(e.target.value)}}
-                        >
-                          <option value="Success Stories">Success Stories</option>
-                          <option value="Leadership Development">Leadership Development</option>
-                          <option value="Business Funding">Business Funding</option>
-                          <option value="Marketing Strategies">Marketing Strategies</option>
-                          <option value="Networking Tips">Networking Tips</option>
-                          <option value="Work-Life Balance">Work-Life Balance</option>
-                          <option value="Mentorship">Mentorship</option>
-                          <option value="Personal Branding">Personal Branding</option>
-                          <option value="Startup Guides">Startup Guides</option>
-                          <option value="Social Impact">Social Impact</option>
-                          <option value="Tech Innovation">Tech Innovation</option>
-                          <option value="Financial Literacy">Financial Literacy</option>
-                          <option value="Scaling Your Business">Scaling Your Business</option>
-                          <option value="E-commerce Strategies">E-commerce Strategies</option>
-                          <option value="Women in Leadership">Women in Leadership</option>
-                          <option value="Self-Care for Entrepreneurs">Self-Care for Entrepreneurs</option>
-                        </select>
-                        <span className="text-xs text-gray-700 text-opacity-50">Upload  logo of your website <span className="text-red-500 text-xl"> <sup>*</sup></span>  </span>
-                        {logoImage ? (
-                          <div className="flex flex-col gap-5">
-                            <img className="h-40 w-40" src={URL.createObjectURL(logoImage)} alt="logo" />
-                            <button onClick={() => setLogoImage(null)} className=" shadow-lg w-fit  px-3 flex items-center justify-center bg-white py-2 text-red-600" > <AiOutlineDelete/> delete upload</button>
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center w-full  placeholder-shown tracking-wider p-2 border border-gray-300  focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200"> 
-                              <label htmlFor="logoImage" className="cursor-pointer"> 
-                              <span className="text-center">upload logo image</span>
-                                <input onChange={handleFileChange} id="logoImage" name="logoImage" type="file"  className="hidden"  />
-                              </label>
-                          </div>
-                        )}
-
-
-                        <span className="text-xs text-gray-700 text-opacity-50">select tags related to your business that all users can easly search your business </span>
-                        <div className="flex flex-wrap gap-2 p-2 ">
-                            {tags.map((tag , index) => (
-                                <div key={index} onClick={() => handleSelectTag(index)} className={`rounded-lg ${selectedTags.indexOf(tag) !== -1 ? "bg-blue-500 text-white" : "bg-white text-blue-500"} border px-2 py-1 cursor-pointer  hover:bg-blue-500 hover:text-white border-blue-400 text-[0.9em]`}>{tag}</div>
-                            ))}
-                        </div>
-                        <span className="text-xs text-gray-700 text-opacity-50">ADD YOUR LOCATION <span className="text-red-500 text-xl"> <sup>*</sup></span></span>
-                        <div className="w-full flex gap-3">
-                            <select value={country} onChange={(e) => setCountry(e.target.value)}  className="w-full flex-1 p-2 border border-gray-300 focus:outline-none focus:ring-4 cursor-pointer tracking-widest focus:ring-blue-400 focus:ring-offset-1 focus:ring-offset-white focus:border-blue-400 transition duration-200" name="" id="">
-                              {Object.keys(countriesWithStates).map((country , index) => (
-                                <option value={country} key={index}>{country}</option>
-                              ))}
-                            </select>
-                            <select value={state} onChange={(e) => setState(e.target.value)}  className="w-full flex-1 p-2 border border-gray-300 focus:outline-none focus:ring-4 cursor-pointer tracking-widest focus:ring-blue-400 focus:ring-offset-1 focus:ring-offset-white focus:border-blue-400 transition duration-200" name="" id="">
-                              {countriesWithStates[country]?.map((state , index) => (
-                                <option value={state} key={index}>{state}</option>
-                              ))}
-                            </select>
-                        </div>
-
-                        <button onClick={() => setShowSection(true)} type="submit" className="w-full flex items-center justify-center bg-blue-500 text-white py-2 hover:bg-blue-600">
-                            { loading ? <div className="w-[25px] h-[25px] rounded-full border-[2px]  border-gray-200 border-t-black animate-spin transition-all duration-200" /> : "CREATE BUSINESS"}
-                        </button>
-                    </form>
-                </motion.div>
-
-
-                <motion.div
-                    initial={{opacity : 0 , y : 50}}
-                    animate={{opacity : 1 , y : 0}} exit={{opacity : 0 , y : 50}} transition={{ ease :"easeInOut" ,duration : 0.3}}
-                className="bg-white flex flex-col gap-5  border-gray-200 p-6 basis-[450px]">
-                    <div className=" flex items-center justify-center">
-                        <img
-                            src={image}
-                            className="object-cover scale-150 bg-cover bg-center" 
-                            alt="women empowerment"
-                            />
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Logo Upload */}
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">Business Logo</label>
+                <div className="flex items-center gap-6">
+                  <div className="relative group">
+                    <div className="w-24 h-24 rounded-3xl bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden transition-all group-hover:border-blue-400">
+                      {previewImage ? (
+                        <img src={previewImage} className="w-full h-full object-cover" alt="Preview" />
+                      ) : (
+                        <Upload className="w-8 h-8 text-slate-400" />
+                      )}
                     </div>
-                </motion.div>
+                    <input 
+                      type="file" 
+                      onChange={handleImageChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      accept="image/*"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-slate-600">Click to upload your business logo</p>
+                    <p className="text-xs text-slate-400 mt-1">Recommended: Square image, max 2MB</p>
+                  </div>
+                </div>
+              </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                    <Briefcase className="w-4 h-4 text-blue-500" /> Business Name
+                  </label>
+                  <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    type="text"
+                    required
+                    placeholder="e.g. Acme Innovations"
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none"
+                  />
+                </div>
 
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                    <Globe className="w-4 h-4 text-blue-500" /> Website URL
+                  </label>
+                  <input
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    type="url"
+                    placeholder="https://example.com"
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none"
+                  />
+                </div>
+              </div>
 
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                  <Info className="w-4 h-4 text-blue-500" /> Description
+                </label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={4}
+                  required
+                  placeholder="What does your business do?"
+                  className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none resize-none"
+                />
+              </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                    <Tag className="w-4 h-4 text-blue-500" /> Category
+                  </label>
+                  <select 
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer" 
+                    value={category} 
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option>Tech Innovation</option>
+                    <option>Retail & Consumer</option>
+                    <option>Creative Services</option>
+                    <option>Health & Wellness</option>
+                    <option>Education & Training</option>
+                    <option>Food & Beverage</option>
+                    <option>Sustainable Ventures</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                    <MapPin className="w-4 h-4 text-blue-500" /> Location
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <select 
+                      value={country} 
+                      onChange={(e) => setCountry(e.target.value)} 
+                      className="p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer"
+                    >
+                      {Object.keys(countriesWithStates).map((c, i) => (
+                        <option value={c} key={i}>{c}</option>
+                      ))}
+                    </select>
+                    <select 
+                      value={state} 
+                      onChange={(e) => setState(e.target.value)} 
+                      className="p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer"
+                    >
+                      {countriesWithStates[country]?.map((s, i) => (
+                        <option value={s} key={i}>{s}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <label className="text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">Industry Tags</label>
+                <div className="flex flex-wrap gap-2 p-1 max-h-40 overflow-y-auto pr-2 scrollbar-hide">
+                  {tags.map((tag, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handleSelectTag(tag)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${
+                        selectedTags.includes(tag)
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "bg-white text-slate-600 border-slate-200 hover:border-blue-400"
+                      }`}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  className="w-full py-5 bg-blue-600 text-white rounded-[2rem] font-bold text-lg shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all active:scale-95 disabled:opacity-50"
+                >
+                  {loading ? "Processing..." : (editMode ? "Update Business Details" : "Register Business")}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+
+          {/* Right Column: Visual */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="hidden lg:block w-full max-w-sm"
+          >
+            <div className="sticky top-32">
+              <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden">
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/20 rounded-full blur-[80px]"></div>
+                <div className="relative z-10">
+                  <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-blue-600/20">
+                    <ChevronRight className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-2xl font-bold mb-4 leading-tight">Grow Your Business with WEN</h2>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-8">
+                    By registering your business, you gain access to exclusive networking events, potential investors, and a community of supportive founders.
+                  </p>
+                  <img src={image} className="w-full rounded-2xl shadow-2xl opacity-80" alt="Business Growth" />
+                </div>
+              </div>
             </div>
-
-    
+          </motion.div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default CreateBusiness
+export default CreateBusiness;

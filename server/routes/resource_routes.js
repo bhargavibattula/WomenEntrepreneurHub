@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyToken } from "../middlewares/verifyToken.js";
-import { createResource, getAllResources, getResourceById,updateResourceById,deleteBusinessById,searchResource,
+import { createResource, getAllResources, getResourceById,updateResourceById,deleteResourceById,searchResource,
     getResourceByCategory , getResourcesByUserId
  } from "../controllers/resource_controller.js";
 
@@ -17,6 +17,6 @@ router.get('/search',searchResource)
 router.get('/:id',getResourceById)
 router.get('/category/:category',verifyToken,getResourceByCategory)
 router.patch('/:id',verifyToken,updateResourceById)
-router.delete('/:id',verifyToken,deleteBusinessById)
+router.delete('/:id',verifyToken,deleteResourceById)
 
 export default router

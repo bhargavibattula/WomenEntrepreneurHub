@@ -1,155 +1,265 @@
-import { set } from "date-fns";
-import {motion} from "framer-motion" 
-import { useState } from "react";
-import { countriesWithStates } from "../lib/utils";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 import { apiClient } from "../lib/api-clinet";
-import { AiOutlineDelete } from "react-icons/ai";
-import { CREATE_A_EVENT, POST_A_BUSINESS } from "../utils/constants";
+import { CREATE_A_EVENT, UPDATE_EVENT_BY_ID } from "../utils/constants";
 import { toast } from "react-toastify";
-import image from "../assets/EVENTIMAGE.avif"
-import { eventTags as tags } from "../lib/utils";
-function HostEvent() {
-  const [selectedTags , setSelectedTags] = useState([]);
-  const [title , setTitle] = useState("");
-  const [description , setDescription] = useState("");
-  const [category, setCategory] = useState("networking")
-  const [country, setCountry] = useState("India");
-  const [state, setState] = useState("Andhra Pradesh")
-  const [loading , setLoading] = useState(false);
-  const [date , setDate] = useState(null);
+import { countriesWithStates, eventTags as tags } from "../lib/utils";
+import image from "../assets/EVENTIMAGE.avif";
+import { Calendar, MapPin, Tag, Type, Info, ChevronRight } from "lucide-react";
 
-  const handleSelectTag = (i) => {
-    if(selectedTags.indexOf(tags[i]) == -1) {
-      setSelectedTags([...selectedTags , tags[i]])
+function HostEvent() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const editMode = location.state?.editMode || false;
+  const initialEventData = location.state?.eventData || null;
+
+  const [selectedTags, setSelectedTags] = useState(initialEventData?.tag || []);
+  const [title, setTitle] = useState(initialEventData?.title || "");
+  const [description, setDescription] = useState(initialEventData?.description || "");
+  const [category, setCategory] = useState(initialEventData?.category || "networking");
+  const [country, setCountry] = useState(initialEventData?.country || "India");
+  const [state, setState] = useState(initialEventData?.state || "Andhra Pradesh");
+  const [date, setDate] = useState(initialEventData?.date ? new Date(initialEventData.date).toISOString().split('T')[0] : "");
+  const [loading, setLoading] = useState(false);
+
+  const handleSelectTag = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
     }
-  }
+  };
+
   const today = new Date().toISOString().split('T')[0];
 
   const handleSubmit = async (e) => {
-    e.preventDefault() ;
+    e.preventDefault();
+    setLoading(true);
+    
+    const payload = {
+      title,
+      description,
+      date,
+      tag: selectedTags,
+      category,
+      country,
+      state
+    };
+
     try {
-      setLoading(true)
-      const response = await apiClient.post(CREATE_A_EVENT,{title , description , date , tag : selectedTags , category ,country , state  } ,{withCredentials : true});
-      if(!response.data.success) {
-        toast.error(response.data.message);
-        setLoading(false)
-        return ;
+      if (editMode && initialEventData?._id) {
+        const response = await apiClient.put(`${UPDATE_EVENT_BY_ID}/${initialEventData._id}`, payload, { withCredentials: true });
+        if (response.data.success) {
+          toast.success("Event updated successfully!");
+          navigate("/your-events");
+        } else {
+          toast.error(response.data.message || "Failed to update event");
+        }
+      } else {
+        const response = await apiClient.post(CREATE_A_EVENT, payload, { withCredentials: true });
+        if (response.data.success) {
+          toast.success("Event created successfully!");
+          navigate("/your-events");
+        } else {
+          toast.error(response.data.message || "Failed to create event");
+        }
       }
-
-      toast.success(response.data.message);
-      setTitle("")
-      setDescription("")
-      setCountry("India")
-      setState("Andhra Pradesh")
-      setDate(null);
-      setLoading(false);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
   return (
-    <div>
-        <div className='h-[300px] z-0 flex items-center justify-center'>
-            <div className='w-full p-5 flex items-center bg-white/20 backdrop-blur-sm justify-center'>
-                <mspan initial={{opacity : 0 , y : 50}} animate={{opacity : 1 , y : 0}} exit={{opacity : 0 , y : 50}} transition={{ ease :"easeInOut" ,duration : 0.3}} className='sm:mr-20 text-xl z-0 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-wider' >Share knowledge</mspan>
+    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 pt-28">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
+          
+          {/* Left Column: Form */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex-1 bg-white rounded-[2.5rem] shadow-xl shadow-blue-900/5 p-8 md:p-12"
+          >
+            <div className="mb-10">
+              <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+                {editMode ? "Edit Event" : "Host an Event"}
+              </h1>
+              <p className="text-slate-500 font-medium">
+                {editMode ? "Update your event details to keep your audience informed." : "Share your knowledge and connect with the community."}
+              </p>
             </div>
-        </div>
 
-        <div className="bg-white flex items-center justify-center flex-wrap p-5 gap-x-20 gap-10">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                  <Type className="w-4 h-4 text-blue-500" /> Event Title
+                </label>
+                <input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  type="text"
+                  required
+                  placeholder="What is your event called?"
+                  className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none"
+                />
+              </div>
 
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                  <Info className="w-4 h-4 text-blue-500" /> Description
+                </label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={4}
+                  required
+                  placeholder="Tell us more about the event..."
+                  className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none resize-none"
+                />
+              </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                    <Calendar className="w-4 h-4 text-blue-500" /> Event Date
+                  </label>
+                  <input
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    type="date"
+                    min={today}
+                    required
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none"
+                  />
+                </div>
 
-                <motion.div 
-                    initial={{opacity : 0 , y : 50}}
-                    animate={{opacity : 1 , y : 0}} exit={{opacity : 0 , y : 50}} transition={{ ease :"easeInOut" ,duration : 0.3}}
-                    className=" bg-white p-3 items-center gap-2 justify-center basis-[500px] flex flex-col "
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                    <Tag className="w-4 h-4 text-blue-500" /> Category
+                  </label>
+                  <select 
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer" 
+                    value={category} 
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option value="networking">Networking</option>
+                    <option value="workshop">Workshop</option>
+                    <option value="panel_discussion">Panel Discussion</option>
+                    <option value="mentorship">Mentorship Program</option>
+                    <option value="conference">Conference</option>
+                    <option value="pitch_event">Pitch Event</option>
+                    <option value="seminar">Seminar</option>
+                    <option value="webinar">Webinar</option>
+                    <option value="retreat">Retreat</option>
+                    <option value="social_event">Social Event</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                  <Tag className="w-4 h-4 text-blue-500" /> Popular Tags
+                </label>
+                <div className="flex flex-wrap gap-2 p-1">
+                  {tags.map((tag, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handleSelectTag(tag)}
+                      className={`px-4 py-2 rounded-xl text-sm font-bold transition-all border ${
+                        selectedTags.includes(tag)
+                          ? "bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/20"
+                          : "bg-white text-slate-600 border-slate-200 hover:border-blue-400 hover:text-blue-600"
+                      }`}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
+                  <MapPin className="w-4 h-4 text-blue-500" /> Location
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  <select 
+                    value={country} 
+                    onChange={(e) => setCountry(e.target.value)} 
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer"
+                  >
+                    {Object.keys(countriesWithStates).map((c, i) => (
+                      <option value={c} key={i}>{c}</option>
+                    ))}
+                  </select>
+                  <select 
+                    value={state} 
+                    onChange={(e) => setState(e.target.value)} 
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer"
+                  >
+                    {countriesWithStates[country]?.map((s, i) => (
+                      <option value={s} key={i}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  className="w-full py-5 bg-blue-600 text-white rounded-3xl font-bold text-lg shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all active:scale-95 disabled:opacity-50"
                 >
+                  {loading ? "Processing..." : (editMode ? "Update Event Details" : "Publish Event")}
+                </button>
+              </div>
+            </form>
+          </motion.div>
 
-                    <span className=" text-xl tracking-wider w-full  py-3 capitalize text-center"> FILL THIS FORM AND HOST THE EVENT </span>
-                    <form onSubmit={handleSubmit}  className="flex flex-col gap-4 w-full">
-                        <input
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            type="text"
-                            required
-                            placeholder="Title of the event"
-                            className="w-full placeholder-shown tracking-wider p-2 border border-gray-300  focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200"
-                        />
-                        <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            type="text"
-                            required
-                            placeholder="description about your event"
-                            className="w-full placeholder-shown tracking-wider p-2 border border-gray-300  focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200"
-                        />
-                       <span className="text-xl text-gray-900 text-opacity-50">date of hosting......</span>
-                        <input
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                            type="date"
-                            min={today}
-                            required
-                            className="w-full placeholder-shown tracking-wider p-2 border border-gray-300  focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200"
-                        />
-                        <span className="text-xl text-gray-900 text-opacity-50">select category of your event</span>
-                          <select className="w-full cursor-pointer placeholder-shown tracking-wider p-2 border border-gray-300  focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400 transition duration-200" value={category} onChange={(e) => setCategory(e.target.value)} id="eventCategory" name="eventCategory">
-                            <option value="networking">Networking</option>
-                            <option value="workshop">Workshop</option>
-                            <option value="panel_discussion">Panel Discussion</option>
-                            <option value="mentorship">Mentorship Program</option>
-                            <option value="conference">Conference</option>
-                            <option value="pitch_event">Pitch Event</option>
-                            <option value="seminar">Seminar</option>
-                            <option value="webinar">Webinar</option>
-                            <option value="retreat">Retreat</option>
-                            <option value="social_event">Social Event</option>
-                          </select>
-                        <span className="text-xs text-gray-700 text-opacity-50">select tags related to your business that all users can easly search your business </span>
-                        <div className="flex flex-wrap gap-2 p-2 ">
-                            {tags.map((tag , index) => (
-                                <div key={index} onClick={() => handleSelectTag(index)} className={`rounded-lg ${selectedTags.indexOf(tag) !== -1 ? "bg-blue-500 text-white" : "bg-white text-blue-500"} border px-2 py-1 cursor-pointer  hover:bg-blue-500 hover:text-white border-blue-400 text-[0.9em]`}>{tag}</div>
-                            ))}
-                        </div>
-                        <span className="text-xs text-gray-700 text-opacity-50">ADD YOUR LOCATION <span className="text-red-500 text-xl"> <sup>*</sup></span></span>
-                        <div className="w-full flex gap-3">
-                            <select value={country} onChange={(e) => setCountry(e.target.value)}  className="w-full flex-1 p-2 border border-gray-300 focus:outline-none focus:ring-4 cursor-pointer tracking-widest focus:ring-blue-400 focus:ring-offset-1 focus:ring-offset-white focus:border-blue-400 transition duration-200" name="" id="">
-                              {Object.keys(countriesWithStates).map((country , index) => (
-                                <option value={country} key={index}>{country}</option>
-                              ))}
-                            </select>
-                            <select value={state} onChange={(e) => setState(e.target.value)}  className="w-full flex-1 p-2 border border-gray-300 focus:outline-none focus:ring-4 cursor-pointer tracking-widest focus:ring-blue-400 focus:ring-offset-1 focus:ring-offset-white focus:border-blue-400 transition duration-200" name="" id="">
-                              {countriesWithStates[country]?.map((state , index) => (
-                                <option value={state} key={index}>{state}</option>
-                              ))}
-                            </select>
-                        </div>
-
-                        <button  type="submit" className="w-full flex items-center justify-center bg-blue-500 text-white py-2 hover:bg-blue-600">
-                            { loading ? <div className="w-[25px] h-[25px] rounded-full border-[2px]  border-gray-200 border-t-black animate-spin transition-all duration-200" /> : "CREATE EVENT"}
-                        </button>
-                    </form>
-                </motion.div>
-
-
-                <motion.div
-                    initial={{opacity : 0 , y : 50}}
-                    animate={{opacity : 1 , y : 0}} exit={{opacity : 0 , y : 50}} transition={{ ease :"easeInOut" ,duration : 0.3}}
-                className="bg-white flex flex-col gap-5  border-gray-200 p-6 basis-[450px]">
-                    <div className="overflow-hidden flex items-center justify-center">
-                        <img
-                            src={image}
-                            className="object-cover  bg-cover bg-center" 
-                            alt="women empowerment"
-                            />
-                    </div>
-                </motion.div>
-
-
+          {/* Right Column: Preview/Image */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="hidden lg:block w-full max-w-sm"
+          >
+            <div className="sticky top-32">
+              <div className="bg-white rounded-[2.5rem] p-6 shadow-xl shadow-blue-900/5 border border-slate-100 overflow-hidden relative">
+                <div className="absolute top-0 right-0 p-4">
+                   <div className="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                      <ChevronRight className="w-6 h-6" />
+                   </div>
+                </div>
+                <div className="mb-6 rounded-3xl overflow-hidden shadow-md">
+                  <img src={image} className="w-full h-auto object-cover" alt="Event" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Event Host Preview</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  Your event will be showcased to thousands of entrepreneurs. Make sure your title and description are catchy!
+                </p>
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <div className="flex items-center gap-3 text-slate-400 text-sm font-bold uppercase tracking-widest">
+                    <Sparkles className="w-4 h-4 text-blue-500" /> Pro Tip
+                  </div>
+                  <p className="mt-2 text-xs text-slate-500">
+                    Events with clear agendas and specific tags get 40% more registrations.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
-
+      </div>
     </div>
-  )
+  );
 }
 
-export default HostEvent
+const Sparkles = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.143-7.714L1 12l6.857-2.143L11 3z" />
+  </svg>
+);
+
+export default HostEvent;

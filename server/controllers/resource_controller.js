@@ -118,7 +118,7 @@ export const updateResourceById = async (req, res) => {
 };
 
 
-export const deleteBusinessById = async (req, res) => {
+export const deleteResourceById = async (req, res) => {
     const resourceId = req.params.id;
     const owner = req.userId;
     try {
@@ -131,9 +131,9 @@ export const deleteBusinessById = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
        
-        if (user.role === "admin" || resource.owner.toString() === req.userId.toString()) {
-            await Resource.findByIdAndDelete(resource);
-            return res.status(200).json({ message: 'Resource deleted successfully' });
+        if (user.role === "admin" || resource.author.toString() === req.userId.toString()) {
+            await Resource.findByIdAndDelete(resourceId);
+            return res.status(200).json({ success: true, message: 'Resource deleted successfully' });
         } else {
             return res.status(403).json({ message: 'Permission denied' });
         }

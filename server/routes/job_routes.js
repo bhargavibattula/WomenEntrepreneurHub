@@ -1,7 +1,7 @@
 import {Router} from "express" ;
 import multer from "multer"
 import { applyToJob, createJob, getAllJobs, getAllJobsThatUserApplied, getApplicationsForJob, getJobById, updateStatus,searchJob ,
-    getJobByUserId,getJobByLoc
+    getJobByUserId,getJobByLoc, updateJob, deleteJobById
 } from "../controllers/job_controllers.js";
 import { checkIsAdminOrEnt, verifyToken } from "../middlewares/verifyToken.js";
 
@@ -29,5 +29,7 @@ router.post('/:id/apply' , verifyToken , uploads.single('resume') , applyToJob )
 router.get('/applications' , verifyToken ,getAllJobsThatUserApplied )
 router.get('/applications/:id' , verifyToken ,getApplicationsForJob )
 router.get('/get-jobs/:district' , verifyToken ,getJobByLoc)
+router.patch('/update-job/:id', verifyToken, updateJob)
+router.delete('/delete-job/:id', verifyToken, deleteJobById)
 router.put('/applications/:applicationId' , updateStatus)
 export default router;
