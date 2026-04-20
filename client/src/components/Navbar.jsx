@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, ShieldAlert } from "lucide-react";
 import { navItems } from "../lib/utils.js";
 import Logo from '../assets/TREELOGO.jpg';
 import { useStore } from "../store/index.js";
 import { HOST } from "../utils/constants.js";
 import ProfileSideNav from "./ProfileSideNav.jsx";
 import { cn } from "../utils/cn.js";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const [openProfileSideNav, setOpenProfileSideNav] = useState(false);
@@ -44,6 +45,28 @@ function Navbar() {
     setMobileMenuOpen(false);
     setActiveDropdown(null);
   }, [location.pathname]);
+
+  // Helper to filter nav items based on role
+  const getFilteredNavItems = (key) => {
+    const items = navItems[key];
+    const isVisitor = userInfo?.role === "visitor";
+    
+    if (!isVisitor) return items;
+
+    // For visitors, filter out "create", "post", and "your" items
+    return items.filter(item => {
+      const name = item.name.toLowerCase();
+      const path = item.path.toLowerCase();
+      return !name.includes("create") && !name.includes("post") && !name.includes("your") && !path.includes("your");
+    });
+  };
+
+  const handleProtectedAction = (e) => {
+    if (userInfo?.role === "visitor") {
+      e.preventDefault();
+      toast.warning("This feature is exclusive to Entrepreneurs and Admins.");
+    }
+  };
 
   return (
     <>
@@ -95,11 +118,10 @@ function Navbar() {
                         className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-56"
                       >
                         <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 overflow-hidden py-2 relative">
-                          {/* Triangle pointer */}
                           <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-t border-l border-slate-100 rotate-45"></div>
                           
                           <div className="relative z-10 flex flex-col">
-                            {navItems[key].map((item) => (
+                            {getFilteredNavItems(key).map((item) => (
                               <Link
                                 key={item.path}
                                 to={item.path}
@@ -149,7 +171,6 @@ function Navbar() {
                 </div>
               )}
 
-              {/* Mobile Menu Toggle */}
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="xl:hidden p-2 rounded-full text-slate-600 hover:bg-slate-100 transition-colors"
@@ -193,7 +214,7 @@ function Navbar() {
                           className="overflow-hidden"
                         >
                           <div className="flex flex-col gap-2 pb-4 pl-4 border-l-2 border-blue-100 ml-2">
-                            {navItems[key].map((item) => (
+                            {getFilteredNavItems(key).map((item) => (
                               <Link
                                 key={item.path}
                                 to={item.path}
@@ -209,7 +230,6 @@ function Navbar() {
                   </div>
                 ))}
                 
-                {/* Mobile Auth Buttons if not logged in */}
                 {!userInfo && (
                   <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-slate-100 sm:hidden">
                     <Link 
@@ -232,7 +252,6 @@ function Navbar() {
         </AnimatePresence>
       </header>
 
-      {/* Profile Sidebar */}
       <ProfileSideNav 
         userInfo={userInfo} 
         setOpenProfileSideNav={setOpenProfileSideNav} 

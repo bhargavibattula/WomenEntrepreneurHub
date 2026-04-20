@@ -47,7 +47,7 @@ const PrivateRoute = ({ children }) => {
 const VisitorPrivateRoute = ({ children }) => {
   const { userInfo } = useStore();
 
-  return !!userInfo ? (userInfo?.role === "visitor" ? (toast.error("Access denied"), <Navigate to={"/"} />) : children) : <Navigate to="/" />;
+  return !!userInfo ? (userInfo?.role === "visitor" ? (toast.warning("This page is reserved for Entrepreneurs and Admins."), <Navigate to={"/"} />) : children) : <Navigate to="/" />;
 };
 
 
@@ -95,17 +95,17 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/settings' element={<PrivateRoute><Settings /></PrivateRoute>} />
             <Route path='/chat-community' element={<PrivateRoute><CommunityChat /></PrivateRoute>} />
-            <Route path='/your-businesses' element={<PrivateRoute><YourBusinesses /></PrivateRoute>} />
-            <Route path='/your-events' element={<PrivateRoute><YourEvent /></PrivateRoute>} />
-            <Route path='/your-resources' element={<PrivateRoute><YourResource /></PrivateRoute>} />
-            <Route path='/your-jobs' element={<PrivateRoute><YourJobs /></PrivateRoute>} />
+            <Route path='/your-businesses' element={<PrivateRoute><VisitorPrivateRoute><YourBusinesses /></VisitorPrivateRoute></PrivateRoute>} />
+            <Route path='/your-events' element={<PrivateRoute><VisitorPrivateRoute><YourEvent /></VisitorPrivateRoute></PrivateRoute>} />
+            <Route path='/your-resources' element={<PrivateRoute><VisitorPrivateRoute><YourResource /></VisitorPrivateRoute></PrivateRoute>} />
+            <Route path='/your-jobs' element={<PrivateRoute><VisitorPrivateRoute><YourJobs /></VisitorPrivateRoute></PrivateRoute>} />
 
             <Route path="/business/all-business" element={<Business />} />
             <Route path="/business/post-business" element={<PrivateRoute><VisitorPrivateRoute><CreateBusiness /></VisitorPrivateRoute></PrivateRoute>} />
             <Route path="/business/:id" element={<PrivateRoute><BusinessPage /></PrivateRoute>} />
 
             <Route path='/job' element={<JobList />} />
-            <Route path='/job/create' element={<CreateJob />} />
+            <Route path='/job/create' element={<PrivateRoute><VisitorPrivateRoute><CreateJob /></VisitorPrivateRoute></PrivateRoute>} />
             <Route path='/job/:id' element={<JobDetails />} />
 
             <Route path='/resource/articles' element={<ResourceArticle />} />
