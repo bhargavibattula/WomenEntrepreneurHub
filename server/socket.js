@@ -3,7 +3,15 @@ import Message  from "./models/message_model.js";
 
 export const SetUpSocket = (server) => {
 
-    const io = new Server(server , { cors : {origin : "http://localhost:5173" ,credentials : true}});
+    const io = new Server(server, {
+        cors: {
+            origin: [
+                "http://localhost:5173",
+                "https://women-entrepreneur-hub-q9ox.vercel.app"
+            ],
+            credentials: true
+        }
+    });
 
     const userSocketMap = new Map();
     const COMMUNITY_ROOM = "community";
