@@ -1,0 +1,28 @@
+<svg width="500" height="150" viewBox="0 0 500 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="logo_gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9333ea" />
+      <stop offset="50%" stop-color="#db2777" />
+      <stop offset="100%" stop-color="#f43f5e" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circular Icon -->
+  <circle cx="75" cy="75" r="60" fill="url(#logo_gradient)" />
+  
+  <!-- Silhouette (Abstract Woman Profile) -->
+  <path d="M65 45C65 45 55 55 55 75C55 95 65 105 65 105C65 105 75 100 80 90C85 80 85 70 80 60C75 50 65 45 65 45Z" fill="white" />
+  <path d="M80 60C85 65 88 75 88 85C88 95 85 105 80 110" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5" />
+
+  <!-- Rising Arrows -->
+  <path d="M95 90L115 50M115 50H105M115 50V60" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M105 105L125 75M125 75H118M125 75V82" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Brand Text -->
+  <text x="150" y="75" font-family="Arial, sans-serif" font-weight="900" font-size="42" fill="#1e293b">Women</text>
+  <text x="150" y="115" font-family="Arial, sans-serif" font-weight="900" font-size="42" fill="#475569">Connect</text>
+  
+  <!-- Network Tagline (Optional small text) -->
+  <text x="152" y="135" font-family="Arial, sans-serif" font-weight="700" font-size="14" fill="#db2777" letter-spacing="4">NETWORK</text>
+</svg>
