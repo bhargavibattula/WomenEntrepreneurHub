@@ -64,8 +64,8 @@ function ComunityChat() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-24 pb-10 px-4 md:px-10">
-            <div className="max-w-7xl mx-auto h-[calc(100vh-140px)] flex gap-6">
+        <div className="min-h-screen bg-slate-50 pt-28 pb-6 px-4 md:px-8">
+            <div className="max-w-[1600px] mx-auto h-[calc(100vh-150px)] flex gap-6">
                 
                 {/* Main Chat Area */}
                 <div className="flex-1 flex flex-col bg-white rounded-[2.5rem] shadow-xl shadow-blue-900/5 border border-slate-100 overflow-hidden relative">
@@ -175,11 +175,11 @@ function ComunityChat() {
                 </div>
 
                 {/* Sidebar - Community Info */}
-                <div className="hidden lg:flex w-80 flex-col gap-6">
-                    <div className="bg-white rounded-[2.5rem] p-8 shadow-xl shadow-blue-900/5 border border-slate-100 flex flex-col items-center text-center">
-                        <img src={image} alt="logo" className="w-40 h-40 object-contain mb-6 drop-shadow-2xl" />
-                        <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-2">Welcome!</h2>
-                        <p className="text-slate-500 font-medium text-sm leading-relaxed mb-6">
+                <div className="hidden lg:flex w-72 flex-col gap-6">
+                    <div className="bg-white rounded-[2.5rem] p-6 shadow-xl shadow-blue-900/5 border border-slate-100 flex flex-col items-center text-center">
+                        <img src={image} alt="logo" className="w-32 h-32 object-contain mb-4 drop-shadow-xl" />
+                        <h2 className="text-xl font-black text-slate-900 tracking-tight mb-2">Welcome!</h2>
+                        <p className="text-slate-500 font-medium text-xs leading-relaxed mb-4">
                             This is your safe space to share knowledge, ask for help, and grow together with fellow entrepreneurs.
                         </p>
                         <div className="w-full h-px bg-slate-100 mb-6"></div>
