@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { 
-    AiOutlineDelete, 
-    AiOutlinePlus, 
-    AiOutlineEdit, 
-    AiOutlineClose, 
+import {
+    AiOutlineDelete,
+    AiOutlinePlus,
+    AiOutlineEdit,
+    AiOutlineClose,
     AiOutlineSearch,
     AiOutlineDollar,
     AiOutlineEnvironment,
@@ -28,7 +28,7 @@ function YourJobs() {
         try {
             setLoading(true);
             const response = await apiClient.get(GET_JOBS_BY_USER_ID, { withCredentials: true });
-            
+
             // Robust data handling
             if (response.data?.success && Array.isArray(response.data.jobs)) {
                 setJobs(response.data.jobs);
@@ -68,7 +68,7 @@ function YourJobs() {
         getJobs();
     }, [])
 
-    const filteredJobs = (jobs || []).filter(job => 
+    const filteredJobs = (jobs || []).filter(job =>
         job?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         job?.category?.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -90,12 +90,12 @@ function YourJobs() {
 
                     <div className='relative w-full max-w-2xl mb-4'>
                         <AiOutlineSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                        <input 
-                            placeholder="Search your job posts..." 
-                            type="text" 
+                        <input
+                            placeholder="Search your job posts..."
+                            type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-3xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm" 
+                            className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-3xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm"
                         />
                     </div>
 
@@ -106,11 +106,11 @@ function YourJobs() {
                             </div>
                         ) : filteredJobs?.length > 0 ? (
                             filteredJobs.map((job, index) => (
-                                <motion.div 
+                                <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.05 }}
-                                    key={job._id || index} 
+                                    key={job._id || index}
                                     className="group w-full p-8 bg-white rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 hover:border-blue-200 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
                                 >
                                     <div className='flex flex-col gap-3 flex-1'>
@@ -134,7 +134,7 @@ function YourJobs() {
                                     </div>
 
                                     <div className="flex gap-3 w-full md:w-auto">
-                                        <Link 
+                                        <Link
                                             to={`/job/applications/${job._id}`}
                                             className="flex-1 md:flex-none p-4 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-100 transition-all flex items-center justify-center gap-2 font-bold text-sm"
                                             title="View Applications"
@@ -142,14 +142,14 @@ function YourJobs() {
                                             <FiBriefcase className="text-xl" />
                                             <span className="hidden lg:inline">Applicants</span>
                                         </Link>
-                                        <Link 
-                                            to="/job/create" 
+                                        <Link
+                                            to="/job/create"
                                             state={{ editMode: true, jobData: job }}
                                             className="flex-1 md:flex-none p-4 bg-slate-50 text-slate-600 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition-all flex items-center justify-center"
                                         >
                                             <AiOutlineEdit className="text-2xl" />
                                         </Link>
-                                        <button 
+                                        <button
                                             onClick={() => { setSelectedJobId(job._id); setShowDeleteModal(true); }}
                                             className="flex-1 md:flex-none p-4 bg-red-50 text-red-500 rounded-2xl hover:bg-red-100 hover:text-red-600 transition-all flex items-center justify-center"
                                         >
@@ -201,15 +201,15 @@ function YourJobs() {
                                 </div>
                                 <h3 className="text-2xl font-bold text-slate-900 mb-2">Delete Job Post?</h3>
                                 <p className="text-slate-500 mb-8">Are you sure you want to delete this job post? Applicants will no longer be able to see it.</p>
-                                
+
                                 <div className="flex gap-4">
-                                    <button 
+                                    <button
                                         onClick={() => setShowDeleteModal(false)}
                                         className="flex-1 py-4 px-6 bg-slate-100 text-slate-600 rounded-2xl font-bold hover:bg-slate-200 transition-all"
                                     >
                                         Cancel
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={handleDelete}
                                         disabled={actionLoading}
                                         className="flex-1 py-4 px-6 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-700 transition-all shadow-lg shadow-red-600/20 disabled:opacity-50"

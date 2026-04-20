@@ -6,6 +6,9 @@ Built with the **MERN stack** and a focus on **High-End Aesthetics**, this platf
 
 ---
 
+## 🔗 Live Demo
+Experience the platform live: [**Women Connect Live**](https://women-entrepreneur-hub-q9ox.vercel.app/)
+
 ## 🌟 Unique Value Proposition
 What makes **Women Connect** different?
 - **Role-Specific Ecosystem**: Unlike generic business tools, Women Connect creates distinct experiences for "Entrepreneurs" (Sellers/Hosts) and "Visitors" (Seekers/Attendees).
@@ -151,6 +154,24 @@ Powered by **Socket.io**. Messages are persisted in MongoDB and delivered instan
 
 ### **Responsive Engine**
 Custom Tailwind breakpoints ensure that complex management dashboards stack elegantly on mobile while utilizing the full 1600px width on ultra-wide monitors.
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+  <h3>✨ Platform Experience</h3>
+  <img src="client/src/assets/sc1.png" alt="Home Page" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc2.png" alt="Job Listings" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc3.png" alt="Dashboard" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc4.png" alt="Profile Setup" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc5.png" alt="Community Chat" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc6.png" alt="Events" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc7.png" alt="Resources" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc8.png" alt="Job Details" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc9.png" alt="Mobile View" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  <img src="client/src/assets/sc10.png" alt="Admin Panel" width="800px" style="border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+</div>
 
 ---
 

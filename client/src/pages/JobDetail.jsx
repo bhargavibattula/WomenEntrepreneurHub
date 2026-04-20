@@ -4,14 +4,14 @@ import { toast } from "react-toastify";
 import { apiClient } from '../lib/api-clinet';
 import { HOST } from '../utils/constants';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    Briefcase, 
-    MapPin, 
-    DollarSign, 
-    Clock, 
-    Calendar, 
-    User, 
-    Mail, 
+import {
+    Briefcase,
+    MapPin,
+    DollarSign,
+    Clock,
+    Calendar,
+    User,
+    Mail,
     Phone,
     FileText,
     Send,
@@ -84,7 +84,7 @@ const JobDetail = () => {
             data.append('experience', formData.experience);
             data.append('portfolioLinks', JSON.stringify(formData.portfolioLinks.split(',').map(l => l.trim())));
 
-            const response = await apiClient.post(`/api/job/${id}/apply`, data, { 
+            const response = await apiClient.post(`/api/job/${id}/apply`, data, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
@@ -140,7 +140,7 @@ const JobDetail = () => {
                                     <Clock className="w-4 h-4" /> {job.employmentType}
                                 </span>
                             </div>
-                            
+
                             <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
                                 {job.title}
                             </h1>
@@ -164,7 +164,7 @@ const JobDetail = () => {
                                 </p>
                             </div>
 
-                            <button 
+                            <button
                                 onClick={() => setShowApplyModal(true)}
                                 className="mt-12 w-full md:w-auto px-10 py-5 bg-blue-600 text-white rounded-2xl font-bold text-xl shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all active:scale-95 flex items-center justify-center gap-3"
                             >
@@ -182,9 +182,9 @@ const JobDetail = () => {
 
                             <div className="flex flex-col items-center text-center mb-8">
                                 <div className="w-24 h-24 rounded-3xl overflow-hidden border-4 border-slate-50 shadow-lg mb-4">
-                                    <img 
-                                        src={job.employer?.profileImage ? `${HOST}/${job.employer.profileImage}` : `https://ui-avatars.com/api/?name=${job.employer?.name}&background=eff6ff&color=2563eb`} 
-                                        alt={job.employer?.name} 
+                                    <img
+                                        src={job.employer?.profileImage ? `${HOST}/${job.employer.profileImage}` : `https://ui-avatars.com/api/?name=${job.employer?.name}&background=eff6ff&color=2563eb`}
+                                        alt={job.employer?.name}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -216,7 +216,7 @@ const JobDetail = () => {
                                 )}
                             </div>
 
-                            <Link 
+                            <Link
                                 to={`/business/all-business?founder=${job.employer?._id}`}
                                 className="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all text-center block text-sm"
                             >
@@ -244,7 +244,7 @@ const JobDetail = () => {
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             className="relative bg-white rounded-[3rem] p-8 md:p-12 w-full max-w-2xl shadow-2xl overflow-y-auto max-h-[90vh]"
                         >
-                            <button 
+                            <button
                                 onClick={() => setShowApplyModal(false)}
                                 className="absolute top-8 right-8 p-3 hover:bg-slate-100 rounded-full text-slate-400 transition-colors"
                             >
@@ -273,8 +273,8 @@ const JobDetail = () => {
                                                 </>
                                             )}
                                         </div>
-                                        <input 
-                                            type="file" 
+                                        <input
+                                            type="file"
                                             accept=".pdf,.doc,.docx"
                                             onChange={handleFileChange}
                                             className="w-full h-32 opacity-0 cursor-pointer relative z-10"
@@ -285,7 +285,7 @@ const JobDetail = () => {
 
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Education Background</label>
-                                    <textarea 
+                                    <textarea
                                         name="education"
                                         value={formData.education}
                                         onChange={handleInputChange}
@@ -297,7 +297,7 @@ const JobDetail = () => {
 
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Work Experience</label>
-                                    <textarea 
+                                    <textarea
                                         name="experience"
                                         value={formData.experience}
                                         onChange={handleInputChange}
@@ -309,7 +309,7 @@ const JobDetail = () => {
 
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Portfolio Links (Optional)</label>
-                                    <input 
+                                    <input
                                         type="text"
                                         name="portfolioLinks"
                                         value={formData.portfolioLinks}
@@ -319,8 +319,8 @@ const JobDetail = () => {
                                     />
                                 </div>
 
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     disabled={submitLoading}
                                     className="w-full py-5 bg-blue-600 text-white rounded-2xl font-bold text-xl shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50"
                                 >

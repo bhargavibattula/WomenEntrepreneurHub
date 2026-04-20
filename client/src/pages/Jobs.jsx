@@ -76,7 +76,7 @@ const JobList = () => {
       <div className="relative pt-20 pb-32 overflow-hidden bg-slate-900">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-slate-900"></div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -86,7 +86,7 @@ const JobList = () => {
             <Sparkles className="w-4 h-4" />
             Discover Your Next Big Career Move
           </motion.div>
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -94,7 +94,7 @@ const JobList = () => {
           >
             Pathway to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Employment</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -111,7 +111,7 @@ const JobList = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input 
+              <input
                 type="text"
                 placeholder="Search job titles..."
                 value={searchTerm}
@@ -121,7 +121,7 @@ const JobList = () => {
             </div>
             <div className="relative">
               <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <select 
+              <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-3xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none appearance-none transition-all font-medium cursor-pointer"
@@ -144,13 +144,13 @@ const JobList = () => {
       {/* Job List Section */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex items-center justify-between mb-10">
-            <div>
-                <h2 className="text-3xl font-bold text-slate-900">Urgently Hiring</h2>
-                {city && <p className="text-slate-500 mt-1 flex items-center gap-1 font-medium"><MapPin className="w-4 h-4" /> Showing jobs near {city}</p>}
-            </div>
-            <div className="text-sm font-bold text-blue-600 bg-blue-50 px-4 py-2 rounded-xl">
-                {filteredJobs?.length || 0} Openings
-            </div>
+          <div>
+            <h2 className="text-3xl font-bold text-slate-900">Urgently Hiring</h2>
+            {city && <p className="text-slate-500 mt-1 flex items-center gap-1 font-medium"><MapPin className="w-4 h-4" /> Showing jobs near {city}</p>}
+          </div>
+          <div className="text-sm font-bold text-blue-600 bg-blue-50 px-4 py-2 rounded-xl">
+            {filteredJobs?.length || 0} Openings
+          </div>
         </div>
 
         <div className="space-y-6">
@@ -168,7 +168,7 @@ const JobList = () => {
                   transition={{ delay: index * 0.05 }}
                   className="group relative"
                 >
-                  <Link 
+                  <Link
                     to={`/job/${job._id}`}
                     className="block p-8 bg-white border border-slate-100 rounded-[2rem] hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300"
                   >
@@ -179,7 +179,7 @@ const JobList = () => {
                             {job.category}
                           </span>
                           <span className="flex items-center gap-1 text-xs font-bold text-slate-400">
-                             <Clock className="w-3 h-3" /> {job.employmentType || "Full-time"}
+                            <Clock className="w-3 h-3" /> {job.employmentType || "Full-time"}
                           </span>
                         </div>
                         <h3 className="text-2xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
@@ -197,7 +197,7 @@ const JobList = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
                           <ArrowRight className="w-6 h-6" />
@@ -208,7 +208,7 @@ const JobList = () => {
                 </motion.div>
               ))
             ) : (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="text-center py-24 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200"
@@ -218,7 +218,7 @@ const JobList = () => {
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">No jobs found</h3>
                 <p className="text-slate-500 max-w-xs mx-auto">Try adjusting your filters or search terms to find more opportunities.</p>
-                <button 
+                <button
                   onClick={() => { setSearchTerm(""); setCategory(""); }}
                   className="mt-6 text-blue-600 font-bold hover:underline"
                 >
