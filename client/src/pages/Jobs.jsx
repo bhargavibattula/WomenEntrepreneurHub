@@ -18,7 +18,7 @@ const JobList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // getAllJobs()
+    getAllJobs(); // Fetch all jobs by default
     const fetchLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -79,7 +79,7 @@ useEffect(() => {
 
     try {
       console.log("Fetching jobs for city:", city);
-      const response = await axios.get(`http://localhost:8000/api/job/get-jobs/${city}`, { withCredentials: true });
+      const response = await apiClient.get(`/api/job/get-jobs/${city}`, { withCredentials: true });
       console.log("This is",response.data);
       setJobs(response.data);
     } catch (error) {

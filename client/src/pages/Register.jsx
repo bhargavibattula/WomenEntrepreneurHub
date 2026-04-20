@@ -52,7 +52,7 @@ function Register() {
                 }
                 toast.success(response.data.message);
                 setRegisterLoading(false);
-                navigate("/auth/verify-email");
+                navigate("/auth/profile-setup");
             } catch (error) {
                 console.log(error.message);
                 setRegisterLoading(false);
@@ -80,7 +80,7 @@ function Register() {
                 return;
             }
             toast.success("Successfully registered with Google!");
-            navigate("/auth/verify-email");
+            navigate("/auth/profile-setup");
         } catch (error) {
             console.error("Google Sign-In Error:", error);
             toast.error("Failed to sign up with Google.");

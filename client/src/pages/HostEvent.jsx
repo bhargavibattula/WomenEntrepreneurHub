@@ -12,7 +12,7 @@ function HostEvent() {
   const [selectedTags , setSelectedTags] = useState([]);
   const [title , setTitle] = useState("");
   const [description , setDescription] = useState("");
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState("networking")
   const [country, setCountry] = useState("India");
   const [state, setState] = useState("Andhra Pradesh")
   const [loading , setLoading] = useState(false);

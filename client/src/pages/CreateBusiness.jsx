@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 function CreateBusiness() {
   const [name , setName] = useState("");
   const [description , setDescription] = useState("");
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState("Tech Innovation")
   const [website, setWebsite] = useState("");
   const [country, setCountry] = useState("India");
   const [state, setState] = useState("Andhra Pradesh")
@@ -130,19 +130,22 @@ function CreateBusiness() {
                               value={category}
                               onChange={(e) => {setCategory(e.target.value)}}
                         >
-                          <option value="">select category</option>
-                          <option value="retail">Retail</option>
-                          <option value="restaurant">Restaurant</option>
-                          <option value="tech">Tech</option>
-                          <option value="consulting">Consulting</option>
-                          <option value="manufacturing">Manufacturing</option>
-                          <option value="healthcare">Healthcare</option>
-                          <option value="finance">Finance</option>
-                          <option value="education">Education</option>
-                          <option value="real-estate">Real Estate</option>
-                          <option value="entertainment">Entertainment</option>
-                          <option value="automotive">Automotive</option>
-                          <option value="hospitality">Hospitality</option>
+                          <option value="Success Stories">Success Stories</option>
+                          <option value="Leadership Development">Leadership Development</option>
+                          <option value="Business Funding">Business Funding</option>
+                          <option value="Marketing Strategies">Marketing Strategies</option>
+                          <option value="Networking Tips">Networking Tips</option>
+                          <option value="Work-Life Balance">Work-Life Balance</option>
+                          <option value="Mentorship">Mentorship</option>
+                          <option value="Personal Branding">Personal Branding</option>
+                          <option value="Startup Guides">Startup Guides</option>
+                          <option value="Social Impact">Social Impact</option>
+                          <option value="Tech Innovation">Tech Innovation</option>
+                          <option value="Financial Literacy">Financial Literacy</option>
+                          <option value="Scaling Your Business">Scaling Your Business</option>
+                          <option value="E-commerce Strategies">E-commerce Strategies</option>
+                          <option value="Women in Leadership">Women in Leadership</option>
+                          <option value="Self-Care for Entrepreneurs">Self-Care for Entrepreneurs</option>
                         </select>
                         <span className="text-xs text-gray-700 text-opacity-50">Upload  logo of your website <span className="text-red-500 text-xl"> <sup>*</sup></span>  </span>
                         {logoImage ? (

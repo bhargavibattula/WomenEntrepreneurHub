@@ -41,10 +41,7 @@ function Login() {
                 console.log(response.data);
                 
             toast.success(response.data.message);
-            if (response.data.user.isVerified === false) {
-                navigate("/auth/verify-email");
-                return;
-            } else if (!response.data.user?.isProfileSetup) {
+            if (!response.data.user?.isProfileSetup) {
                 navigate("/auth/profile-setup");
                 return;
             }
@@ -88,11 +85,7 @@ function Login() {
                 }
                 
                 toast.success(response.data.message);
-                if (response.data.user.isVerified === false) {
-                    navigate("/auth/verify-email");
-                    setLoginLoading(false);
-                    return;
-                } else if (response.data.user?.isProfileSetup === false || response.data.user?.isProfileSetup === undefined) {
+                if (response.data.user?.isProfileSetup === false || response.data.user?.isProfileSetup === undefined) {
                     navigate("/auth/profile-setup");
                     setLoginLoading(false);
                     return;
