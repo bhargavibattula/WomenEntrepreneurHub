@@ -24,6 +24,7 @@ const YourBusinesses = React.lazy(() => import('./pages/YourBusinesses'))
 const YourEvent = React.lazy(() => import('./pages/YourEvent'))
 const YourJobs = React.lazy(() => import('./pages/YourJobs'))
 const JSTLMeet = React.lazy(() => import("./pages/EventPage"))
+const Settings = React.lazy(() => import("./pages/Settings"))
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -92,6 +93,7 @@ function App() {
             <Route path="/auth/verify-email" element={<VerifyEmail />} />
             <Route path="/auth/profile-setup" element={<ProfileSetup />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/settings' element={<PrivateRoute><Settings /></PrivateRoute>} />
             <Route path='/chat-community' element={<PrivateRoute><CommunityChat /></PrivateRoute>} />
             <Route path='/your-businesses' element={<PrivateRoute><YourBusinesses /></PrivateRoute>} />
             <Route path='/your-events' element={<PrivateRoute><YourEvent /></PrivateRoute>} />
