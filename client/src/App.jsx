@@ -82,39 +82,41 @@ function App() {
   return (
     <div className=' bg-gradient-to-t from-white via-white to-blue-100'>
       <Navbar />
-      <Suspense fallback={<>Component loading....</>}>
-        <Routes>
-          <Route path="/loc" element={<GetLocation />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/auth/login" element={<AuthRoute><Login /></AuthRoute>} />
-          <Route path="/auth/register" element={<AuthRoute><Register /></AuthRoute>} />
-          <Route path="/auth/verify-email" element={<VerifyEmail />} />
-          <Route path="/auth/profile-setup" element={<ProfileSetup />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/chat-community' element={<PrivateRoute><CommunityChat /></PrivateRoute>} />
-          <Route path='/your-businesses' element={<PrivateRoute><YourBusinesses /></PrivateRoute>} />
-          <Route path='/your-events' element={<PrivateRoute><YourEvent /></PrivateRoute>} />
-          <Route path='/your-resources' element={<PrivateRoute><YourResource /></PrivateRoute>} />
-          <Route path='/your-jobs' element={<PrivateRoute><YourJobs /></PrivateRoute>} />
+      <main className="pt-28 min-h-screen">
+        <Suspense fallback={<>Component loading....</>}>
+          <Routes>
+            <Route path="/loc" element={<GetLocation />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/auth/login" element={<AuthRoute><Login /></AuthRoute>} />
+            <Route path="/auth/register" element={<AuthRoute><Register /></AuthRoute>} />
+            <Route path="/auth/verify-email" element={<VerifyEmail />} />
+            <Route path="/auth/profile-setup" element={<ProfileSetup />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/chat-community' element={<PrivateRoute><CommunityChat /></PrivateRoute>} />
+            <Route path='/your-businesses' element={<PrivateRoute><YourBusinesses /></PrivateRoute>} />
+            <Route path='/your-events' element={<PrivateRoute><YourEvent /></PrivateRoute>} />
+            <Route path='/your-resources' element={<PrivateRoute><YourResource /></PrivateRoute>} />
+            <Route path='/your-jobs' element={<PrivateRoute><YourJobs /></PrivateRoute>} />
 
-          <Route path="/business/all-business" element={<Business />} />
-          <Route path="/business/post-business" element={<PrivateRoute><VisitorPrivateRoute><CreateBusiness /></VisitorPrivateRoute></PrivateRoute>} />
-          <Route path="/business/:id" element={<PrivateRoute><BusinessPage /></PrivateRoute>} />
+            <Route path="/business/all-business" element={<Business />} />
+            <Route path="/business/post-business" element={<PrivateRoute><VisitorPrivateRoute><CreateBusiness /></VisitorPrivateRoute></PrivateRoute>} />
+            <Route path="/business/:id" element={<PrivateRoute><BusinessPage /></PrivateRoute>} />
 
-          <Route path='/job' element={<JobList />} />
-          <Route path='/job/create' element={<CreateJob />} />
-          <Route path='/job/:id' element={<JobDetails />} />
+            <Route path='/job' element={<JobList />} />
+            <Route path='/job/create' element={<CreateJob />} />
+            <Route path='/job/:id' element={<JobDetails />} />
 
-          <Route path='/resource/articles' element={<ResourceArticle />} />
-          <Route path='/resource/articles/:id' element={<ResourceArticlePage />} />
-          <Route path='/resource/post-articles' element={<PrivateRoute> <VisitorPrivateRoute><PostArticle /></VisitorPrivateRoute></PrivateRoute>} />
+            <Route path='/resource/articles' element={<ResourceArticle />} />
+            <Route path='/resource/articles/:id' element={<ResourceArticlePage />} />
+            <Route path='/resource/post-articles' element={<PrivateRoute> <VisitorPrivateRoute><PostArticle /></VisitorPrivateRoute></PrivateRoute>} />
 
-          <Route path='/events/all-events' element={<Events />} />
-          <Route path='/events/host-event' element={<PrivateRoute> <VisitorPrivateRoute><HostEvent /></VisitorPrivateRoute> </PrivateRoute>} />
-          <Route path='/event/:id' element={<PrivateRoute><EventPage /></PrivateRoute>} />
-          <Route path='*' element={<>404 NOT FOUND</>} />
-        </Routes>
-      </Suspense>
+            <Route path='/events/all-events' element={<Events />} />
+            <Route path='/events/host-event' element={<PrivateRoute> <VisitorPrivateRoute><HostEvent /></VisitorPrivateRoute> </PrivateRoute>} />
+            <Route path='/event/:id' element={<PrivateRoute><EventPage /></PrivateRoute>} />
+            <Route path='*' element={<>404 NOT FOUND</>} />
+          </Routes>
+        </Suspense>
+      </main>
       <Footer />
     </div>
   );

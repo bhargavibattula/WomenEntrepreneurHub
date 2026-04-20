@@ -30,11 +30,10 @@ function YourJobs() {
       
 
   return (
-    <div className='min-h-screen    bg-white'>
-      <div className='container flex flex-wrap w-full h-full  mx-auto'> 
-        <ProfileViewAndEdit/>
-
-        <div className='flex-1 flex gap-5  flex-col p-3'>
+    <div className='min-h-screen bg-white p-6'>
+      <div className='max-w-7xl mx-auto'> 
+        <div className='flex gap-5 flex-col'>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-4 uppercase">Your Jobs</h1>
           <div className='flex w-full gap-4 items-center'> 
               <input  placeholder="search" type="text"  className="w-full flex-1 p-2 border border-gray-300   focus:outline-none focus:ring-1 focus:ring-blue-400 focus:ring-offset-1 focus:ring-offset-white focus:border-blue-400 transition duration-200" />
               <Link to={"/"} className="bg-blue-500 h-full rounded-lg hover:bg-blue-600 flex gap-2 items-center justify-center text-xl basis-[100px] text-white"> <AiOutlineMoneyCollect/>new</Link>
