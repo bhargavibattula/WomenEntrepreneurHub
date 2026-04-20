@@ -24,18 +24,15 @@ function ProfileSideNav({ openProfileSideNav, setOpenProfileSideNav }) {
 
     const handleLogout = async () => {
         try {
-            const response = await apiClient.post(LOGOUT_ROUTE, {}, { withCredentials: true });
-            
-            if (response.data.success) {
-                toast.success(response.data.message || "Logged out successfully");
-                setUserInfo(null);
-                setOpenProfileSideNav(false);
-                navigate("/");
-            } else {
-                toast.error(response.data.message || "Logout failed");
-            }
+            await apiClient.post(LOGOUT_ROUTE, {}, { withCredentials: true });
+            toast.success("Logged out successfully");
         } catch (error) {
-            toast.error(error.message);
+            console.error("Logout error:", error);
+            // We still proceed with local logout even if server call fails
+        } finally {
+            setUserInfo(null);
+            setOpenProfileSideNav(false);
+            navigate("/");
         }
     };
 
