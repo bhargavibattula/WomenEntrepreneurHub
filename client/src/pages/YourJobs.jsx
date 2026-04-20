@@ -4,12 +4,12 @@ import {
     AiOutlinePlus, 
     AiOutlineEdit, 
     AiOutlineClose, 
-    AiOutlineBriefcase, 
     AiOutlineSearch,
     AiOutlineDollar,
     AiOutlineEnvironment,
     AiOutlineClockCircle
 } from 'react-icons/ai'
+import { FiBriefcase } from 'react-icons/fi'
 import { apiClient } from '../lib/api-clinet'
 import { GET_JOBS_BY_USER_ID, DELETE_JOB_BY_ID } from '../utils/constants'
 import { toast } from 'react-toastify'
@@ -139,7 +139,7 @@ function YourJobs() {
                                             className="flex-1 md:flex-none p-4 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-100 transition-all flex items-center justify-center gap-2 font-bold text-sm"
                                             title="View Applications"
                                         >
-                                            <AiOutlineBriefcase className="text-xl" />
+                                            <FiBriefcase className="text-xl" />
                                             <span className="hidden lg:inline">Applicants</span>
                                         </Link>
                                         <Link 
@@ -161,7 +161,7 @@ function YourJobs() {
                         ) : (
                             <div className="text-center py-24 bg-white rounded-[3rem] border-2 border-dashed border-slate-200">
                                 <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                    <AiOutlineBriefcase className="w-8 h-8 text-slate-300" />
+                                    <FiBriefcase className="w-8 h-8 text-slate-300" />
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-900 mb-2">No job posts found</h3>
                                 <p className="text-slate-400 font-medium max-w-xs mx-auto">Start building your team by posting your first job opportunity.</p>
