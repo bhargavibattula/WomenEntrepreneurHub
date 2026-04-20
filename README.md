@@ -147,7 +147,7 @@ Uses **HTTP-only Cookies** to store JWT tokens, preventing XSS attacks. Includes
 Full CRUD for job posts. Includes a candidate tracking system where owners can review resumes (using Multer for storage) and manage application statuses.
 
 ### **Community Chat**
-Powered by **Socket.io**. Messages are persisted in MongoDB and delivered instantly to all connected users. Supports role-based identification within chat bubbles.
+Powered by **Socket.io**. Messages are persisted in MongoDB and delivered instantly to all connected users. Supports role-based identification within chat bubbles...
 
 ### **Responsive Engine**
 Custom Tailwind breakpoints ensure that complex management dashboards stack elegantly on mobile while utilizing the full 1600px width on ultra-wide monitors.
