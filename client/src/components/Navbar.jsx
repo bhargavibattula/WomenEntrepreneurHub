@@ -82,9 +82,6 @@ function Navbar() {
             
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 z-50">
-              <span className="text-sm font-bold text-blue-600 tracking-wider uppercase bg-blue-50 px-3 py-1 rounded-full">
-                Join Us
-              </span>
               <div className="w-10 h-10 rounded-xl overflow-hidden bg-white shadow-sm flex items-center justify-center">
                 <img src={Logo} alt="Women Connect" className="w-full h-full object-cover" />
               </div>
