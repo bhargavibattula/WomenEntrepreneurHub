@@ -45,11 +45,7 @@ function ResourceArticle() {
         if (category) {
            queryString += `category=${category}&`;
         }
-        const uri=`http://localhost:8000${queryString}`
-        console.log(uri);
-        
-        console.log(queryString); 
-        const response = await axios.get(uri,{withCredentials : true});
+        const response = await apiClient.get(queryString, { withCredentials: true });
         setResources(response.data)
         setLoading(false);
         console.log( "searched : " ,response.data)

@@ -1,4 +1,4 @@
-export const HOST = "http://localhost:8000"
+export const HOST = import.meta.env.VITE_API_URL || "http://localhost:8000"
 
 export const LOGIN_ROUTE = `api/auth/login`
 export const GoogleAuth = `api/auth/googleAuth`
