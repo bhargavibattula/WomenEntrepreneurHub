@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { apiClient } from '../lib/api-clinet';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UPDATE_JOB_BY_ID } from '../utils/constants';
+import { countriesWithStates } from '../lib/utils';
 import { Briefcase, MapPin, DollarSign, Type, Info, Layers, ChevronRight, Sparkles, Building, Globe } from 'lucide-react';
 
 const CreateJob = () => {
@@ -19,61 +20,12 @@ const CreateJob = () => {
     employmentType: initialJobData?.employmentType || "full-time",
     location: initialJobData?.location || "",
     category: initialJobData?.category || "",
-    country: initialJobData?.country || "",
-    state: initialJobData?.state || "",
+    country: initialJobData?.country || "India",
+    state: initialJobData?.state || "Andhra Pradesh",
     city: initialJobData?.city || ""
   });
   
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // Fetch countries from GeoNames API
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch('http://api.geonames.org/countryInfoJSON?username=deepak32'); 
-        const data = await response.json();
-        setCountries(data.geonames || []);
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      }
-    };
-    fetchCountries();
-  }, []);
-
-  // Fetch states when a country is selected
-  useEffect(() => {
-    const fetchStates = async () => {
-      if (formData.country) {
-        try {
-          const response = await fetch(`http://api.geonames.org/childrenJSON?geonameId=${formData.country}&username=deepak32`);
-          const data = await response.json();
-          setStates(data.geonames || []);
-        } catch (error) {
-          console.error("Error fetching states:", error);
-        }
-      }
-    };
-    fetchStates();
-  }, [formData.country]);
-
-  // Fetch cities when a state is selected
-  useEffect(() => {
-    const fetchCities = async () => {
-      if (formData.state) {
-        try {
-          const response = await fetch(`http://api.geonames.org/childrenJSON?geonameId=${formData.state}&username=deepak32`);
-          const data = await response.json();
-          setCities(data.geonames || []);
-        } catch (error) {
-          console.error("Error fetching cities:", error);
-        }
-      }
-    };
-    fetchCities();
-  }, [formData.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -210,8 +162,7 @@ const CreateJob = () => {
                                 className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer"
                                 required
                             >
-                                <option value="">Select Country</option>
-                                {countries.map(c => <option key={c.geonameId} value={c.geonameId}>{c.countryName}</option>)}
+                                {Object.keys(countriesWithStates).map(c => <option key={c} value={c}>{c}</option>)}
                             </select>
                         </div>
 
@@ -227,7 +178,7 @@ const CreateJob = () => {
                                 required
                             >
                                 <option value="">Select State</option>
-                                {states?.map(s => <option key={s.geonameId} value={s.geonameId}>{s.name}</option>)}
+                                {countriesWithStates[formData.country]?.map(s => <option key={s} value={s}>{s}</option>)}
                             </select>
                         </div>
 
@@ -235,16 +186,15 @@ const CreateJob = () => {
                             <label className="flex items-center gap-2 text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">
                                 <Building className="w-4 h-4 text-blue-500" /> City
                             </label>
-                            <select
+                            <input
+                                type="text"
                                 name="city"
                                 value={formData.city}
                                 onChange={handleChange}
-                                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer"
+                                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all outline-none"
+                                placeholder="e.g. Mumbai"
                                 required
-                            >
-                                <option value="">Select City</option>
-                                {cities.map(c => <option key={c.geonameId} value={c.name}>{c.name}</option>)}
-                            </select>
+                            />
                         </div>
                     </div>
 
