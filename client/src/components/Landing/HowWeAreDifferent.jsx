@@ -126,37 +126,52 @@ const HowWeAreDifferent = () => {
 
         </div>
 
-        {/* Global CTA Banner mapped to brand colors instead of dark mode */}
+        {/* Extraordinary Professional CTA */}
         <motion.div 
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mt-32 relative rounded-[3rem] overflow-hidden bg-gradient-to-br from-blue-600 to-indigo-700 shadow-2xl shadow-blue-600/20"
+          className="mt-32 relative rounded-[2rem] bg-white border border-slate-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden"
         >
-          {/* subtle pattern overlay */}
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-          
-          {/* Glass orb effects */}
-          <div className="absolute top-[-50%] right-[-10%] w-[500px] h-[500px] bg-white/10 rounded-full blur-[80px]"></div>
-          
-          <div className="relative p-12 md:p-20 flex flex-col lg:flex-row items-center justify-between z-10 gap-8 text-center lg:text-left">
-            <div className="max-w-2xl">
-              <h4 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
-                Get the happiness <br className="hidden lg:block"/> you deserve.
-              </h4>
-              <p className="text-blue-100 text-xl leading-relaxed">
-                No matter the challenge, you don't have to face it alone. It’s up to you to take the first step.
-              </p>
+          {/* Subtle gradient highlights */}
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500"></div>
+          <div className="absolute -right-40 -bottom-40 w-96 h-96 bg-blue-50 rounded-full blur-[80px] pointer-events-none"></div>
+          <div className="absolute -left-40 -top-40 w-96 h-96 bg-indigo-50 rounded-full blur-[80px] pointer-events-none"></div>
+
+          <div className="relative p-12 md:p-20 flex flex-col items-center text-center z-10">
+            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+              <Sparkles className="w-8 h-8 text-blue-600" />
             </div>
-            <div className="flex-shrink-0">
+            
+            <h4 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 max-w-3xl">
+              Ready to scale your vision alongside industry leaders?
+            </h4>
+            
+            <p className="text-xl text-slate-600 leading-relaxed mb-10 max-w-2xl">
+              Join a vetted network of ambitious women founders. Gain access to exclusive resources, high-value connections, and the support you need to accelerate your growth.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full">
               <Link 
                 to="/auth/register" 
-                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-blue-700 bg-white rounded-full shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 focus:outline-none"
+                className="group flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-white bg-slate-900 rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl w-full sm:w-auto"
               >
-                Join FEMPOWER
+                Apply to Join Network
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              
+              <Link 
+                to="/business/all-business" 
+                className="flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-slate-700 bg-white border border-slate-200 rounded-full hover:bg-slate-50 transition-all w-full sm:w-auto"
+              >
+                Explore Directory
               </Link>
             </div>
+
+            <p className="mt-8 text-sm text-slate-400 font-medium">
+              Trusted by 10,000+ women entrepreneurs globally.
+            </p>
           </div>
         </motion.div>
 
