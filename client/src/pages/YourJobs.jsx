@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { AiOutlineDelete, AiOutlinePlus, AiOutlineEdit, AiOutlineClose, AiOutlineBriefcase, AiOutlineSearch } from 'react-icons/ai'
+import { 
+    AiOutlineDelete, 
+    AiOutlinePlus, 
+    AiOutlineEdit, 
+    AiOutlineClose, 
+    AiOutlineBriefcase, 
+    AiOutlineSearch,
+    AiOutlineDollar,
+    AiOutlineEnvironment,
+    AiOutlineClockCircle
+} from 'react-icons/ai'
 import { apiClient } from '../lib/api-clinet'
 import { GET_JOBS_BY_USER_ID, DELETE_JOB_BY_ID } from '../utils/constants'
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Briefcase, MapPin, DollarSign, Clock } from 'lucide-react'
 
 function YourJobs() {
     const [jobs, setJobs] = useState([]);
@@ -21,16 +30,15 @@ function YourJobs() {
             const response = await apiClient.get(GET_JOBS_BY_USER_ID, { withCredentials: true });
             
             // Robust data handling
-            if (Array.isArray(response.data)) {
-                setJobs(response.data);
-            } else if (response.data?.jobs) {
+            if (response.data?.success && Array.isArray(response.data.jobs)) {
                 setJobs(response.data.jobs);
+            } else if (Array.isArray(response.data)) {
+                setJobs(response.data);
             } else {
                 setJobs([]);
             }
         } catch (error) {
             console.error("Error fetching jobs:", error);
-            toast.error("Failed to load your job posts");
         } finally {
             setLoading(false);
         }
@@ -60,9 +68,9 @@ function YourJobs() {
         getJobs();
     }, [])
 
-    const filteredJobs = jobs.filter(job => 
-        job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.category?.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredJobs = (jobs || []).filter(job => 
+        job?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job?.category?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -81,7 +89,7 @@ function YourJobs() {
                     </div>
 
                     <div className='relative w-full max-w-2xl mb-4'>
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                        <AiOutlineSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                         <input 
                             placeholder="Search your job posts..." 
                             type="text" 
@@ -111,16 +119,16 @@ function YourJobs() {
                                                 {job?.category || "General"}
                                             </span>
                                             <span className="flex items-center gap-1 text-xs font-bold text-slate-400">
-                                                <Clock className="w-3 h-3" /> {job?.employmentType || "Full-time"}
+                                                <AiOutlineClockCircle className="w-3 h-3" /> {job?.employmentType || "Full-time"}
                                             </span>
                                         </div>
                                         <h3 className='font-bold text-2xl text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors'>{job?.title}</h3>
                                         <div className="flex flex-wrap gap-4 text-slate-500 font-medium text-sm">
                                             <div className="flex items-center gap-1.5">
-                                                <MapPin className="w-4 h-4 text-slate-400" /> {job?.location || "Remote"}
+                                                <AiOutlineEnvironment className="w-4 h-4 text-slate-400" /> {job?.location || "Remote"}
                                             </div>
                                             <div className="flex items-center gap-1.5">
-                                                <DollarSign className="w-4 h-4 text-slate-400" /> {job?.salary || "Not mentioned"}
+                                                <AiOutlineDollar className="w-4 h-4 text-slate-400" /> {job?.salary || "Not mentioned"}
                                             </div>
                                         </div>
                                     </div>
@@ -145,7 +153,7 @@ function YourJobs() {
                         ) : (
                             <div className="text-center py-24 bg-white rounded-[3rem] border-2 border-dashed border-slate-200">
                                 <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                    <Briefcase className="w-8 h-8 text-slate-300" />
+                                    <AiOutlineBriefcase className="w-8 h-8 text-slate-300" />
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-900 mb-2">No job posts found</h3>
                                 <p className="text-slate-400 font-medium max-w-xs mx-auto">Start building your team by posting your first job opportunity.</p>
