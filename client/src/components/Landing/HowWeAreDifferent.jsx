@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight } from 'lucide-react';
-import { cn } from '../../utils/cn';
 
 const differences = [
   {
@@ -50,8 +49,8 @@ const differences = [
 const HowWeAreDifferent = () => {
   return (
     <section className="py-32 bg-white relative overflow-hidden pointer-events-auto">
-      {/* Decorative ambient background */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-blue-50 to-indigo-50/30 rounded-full blur-[120px] opacity-70 -z-10 pointer-events-none translate-x-1/3 -translate-y-1/4"></div>
+      {/* Decorative ambient background matching the theme */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-blue-50 to-indigo-50/50 rounded-full blur-[120px] opacity-80 -z-10 pointer-events-none translate-x-1/3 -translate-y-1/4"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -67,7 +66,7 @@ const HowWeAreDifferent = () => {
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 mb-8">
                 <Sparkles className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-semibold text-blue-700 tracking-wide">
+                <span className="text-sm font-semibold text-blue-700 tracking-wide uppercase">
                   The FEMPOWER Difference
                 </span>
               </div>
@@ -83,14 +82,14 @@ const HowWeAreDifferent = () => {
                 We go beyond just offering a platform. We’re creating a space that’s truly empowering and inclusive, engineered from the ground up for women in business.
               </p>
 
-              {/* Minimal CTA */}
+              {/* Minimal CTA matching theme */}
               <Link 
                 to="/auth/register"
-                className="group inline-flex items-center gap-3 text-lg font-bold text-slate-900 hover:text-blue-600 transition-colors"
+                className="group inline-flex items-center gap-3 text-lg font-bold text-blue-600 hover:text-blue-800 transition-colors"
               >
                 Experience it yourself 
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 group-hover:bg-blue-100 transition-colors">
-                  <ArrowRight className="w-5 h-5 text-slate-900 group-hover:text-blue-600 transition-colors" />
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 group-hover:bg-blue-100 transition-colors">
+                  <ArrowRight className="w-5 h-5 text-blue-600 transition-colors" />
                 </span>
               </Link>
             </motion.div>
@@ -107,8 +106,8 @@ const HowWeAreDifferent = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group relative flex gap-6 lg:gap-8"
               >
-                {/* Huge Background Number */}
-                <div className="absolute -left-4 -top-8 text-[120px] font-black text-slate-50 opacity-50 group-hover:text-blue-50 transition-colors duration-500 pointer-events-none select-none z-0">
+                {/* Huge Background Number mapped to theme */}
+                <div className="absolute -left-4 -top-8 text-[120px] font-black text-blue-50/50 group-hover:text-blue-100/50 transition-colors duration-500 pointer-events-none select-none z-0">
                   {item.num}
                 </div>
                 
@@ -127,31 +126,33 @@ const HowWeAreDifferent = () => {
 
         </div>
 
-        {/* Global CTA Banner at the bottom */}
+        {/* Global CTA Banner mapped to brand colors instead of dark mode */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mt-32 relative rounded-[2.5rem] overflow-hidden bg-slate-900 shadow-2xl"
+          className="mt-32 relative rounded-[3rem] overflow-hidden bg-gradient-to-br from-blue-600 to-indigo-700 shadow-2xl shadow-blue-600/20"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 mix-blend-overlay"></div>
-          {/* subtle pattern */}
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+          {/* subtle pattern overlay */}
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
           
-          <div className="relative p-12 md:p-20 flex flex-col lg:flex-row items-center justify-between z-10 gap-8">
-            <div className="max-w-2xl text-center lg:text-left">
-              <h4 className="text-4xl font-extrabold text-white tracking-tight mb-4">
-                Get the happiness you deserve
+          {/* Glass orb effects */}
+          <div className="absolute top-[-50%] right-[-10%] w-[500px] h-[500px] bg-white/10 rounded-full blur-[80px]"></div>
+          
+          <div className="relative p-12 md:p-20 flex flex-col lg:flex-row items-center justify-between z-10 gap-8 text-center lg:text-left">
+            <div className="max-w-2xl">
+              <h4 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
+                Get the happiness <br className="hidden lg:block"/> you deserve.
               </h4>
-              <p className="text-slate-300 text-xl leading-relaxed">
+              <p className="text-blue-100 text-xl leading-relaxed">
                 No matter the challenge, you don't have to face it alone. It’s up to you to take the first step.
               </p>
             </div>
             <div className="flex-shrink-0">
               <Link 
                 to="/auth/register" 
-                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-slate-900 bg-white rounded-full shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 focus:outline-none"
+                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-blue-700 bg-white rounded-full shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 focus:outline-none"
               >
                 Join FEMPOWER
               </Link>
