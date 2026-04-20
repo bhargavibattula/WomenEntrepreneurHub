@@ -4,7 +4,7 @@ const eventSchema = new mongoose.Schema({
     title : {type : String , required : true , index : true}  ,
     description : {type : String , required : true} ,
     date : {type : Date , required : true} ,
-    location : {countru : String , state : String  } ,
+    location : {country : String , state : String  } ,
     virtualLink : {type : String } ,
     category : {type : String,enum: [
         "networking",

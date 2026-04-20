@@ -10,32 +10,45 @@ function YourEvent() {
     const [events, setEvents] = useState([])
     const [completedEvents, setCompletedEvents] = useState([])
     const [section, setSection] = useState(0)
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [actionLoading, setActionLoading] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [selectedEventId, setSelectedEventId] = useState(null);
 
     const getEvents = async () => {
         try {
             const response = await apiClient.get(GET_EVENTS_BY_USERID, { withCredentials: true })
-            setEvents(response.data)
+            if (Array.isArray(response.data)) {
+                setEvents(response.data)
+            } else if (response.data?.events) {
+                setEvents(response.data.events)
+            }
         } catch (err) {
-            toast.error(err.message)
+            console.error("Error fetching upcoming events:", err);
+            toast.error("Failed to load upcoming events");
         }
     };
 
     const getEventsCompleted = async () => {
         try {
             const response = await apiClient.get(GET_EVENTS_BY_USERID_COMPLETED, { withCredentials: true })
-            setCompletedEvents(response.data)
+            if (Array.isArray(response.data)) {
+                setCompletedEvents(response.data)
+            } else if (response.data?.events) {
+                setCompletedEvents(response.data.events)
+            }
         } catch (err) {
-            toast.error(err.message)
+            console.error("Error fetching completed events:", err);
+            toast.error("Failed to load completed events");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleDelete = async () => {
         if (!selectedEventId) return;
         try {
-            setLoading(true);
+            setActionLoading(true);
             const response = await apiClient.delete(`${DELETE_EVENT_BY_ID}/${selectedEventId}`, { withCredentials: true })
             if (response.data.success || response.status === 200) {
                 toast.success(response.data.message || "Event deleted successfully");
@@ -49,14 +62,20 @@ function YourEvent() {
         } catch (err) {
             toast.error(err.message)
         } finally {
-            setLoading(false);
+            setActionLoading(false);
         }
     }
 
     useEffect(() => {
-        getEvents()
-        getEventsCompleted();
+        const loadAllEvents = async () => {
+            setLoading(true);
+            await Promise.all([getEvents(), getEventsCompleted()]);
+            setLoading(false);
+        };
+        loadAllEvents();
     }, [])
+
+    const activeList = section === 0 ? events : completedEvents;
 
     return (
         <div className='min-h-screen bg-white p-6'>
@@ -86,15 +105,29 @@ function YourEvent() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4">
-                        {(section === 0 ? events : completedEvents)?.length > 0 ? (
-                            (section === 0 ? events : completedEvents).map((event, index) => (
-                                <div key={index} className="group w-full p-6 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all flex items-center justify-between">
+                        {loading ? (
+                            <div className="flex justify-center py-20">
+                                <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        ) : activeList?.length > 0 ? (
+                            activeList.map((event, index) => (
+                                <motion.div 
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    key={event?._id || index} 
+                                    className="group w-full p-6 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all flex items-center justify-between"
+                                >
                                     <div className='flex flex-col gap-2'>
                                         <span className='uppercase font-bold text-2xl text-blue-600 tracking-tight'>{event?.title}</span>
                                         <span className='text-slate-500 text-sm max-w-2xl line-clamp-2'>{event?.description}</span>
                                         <div className="flex gap-2 mt-2">
                                             <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold uppercase tracking-wider">{event?.category}</span>
-                                            {event?.date && <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold">{new Date(event.date).toLocaleDateString()}</span>}
+                                            {event?.date && (
+                                                <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold flex items-center gap-1">
+                                                    <AiOutlineCalendar />
+                                                    {new Date(event.date).toLocaleDateString()}
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
 
@@ -118,7 +151,7 @@ function YourEvent() {
                                             <AiOutlineDelete className="text-2xl" />
                                         </button>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))
                         ) : (
                             <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
@@ -168,10 +201,10 @@ function YourEvent() {
                                     </button>
                                     <button 
                                         onClick={handleDelete}
-                                        disabled={loading}
+                                        disabled={actionLoading}
                                         className="flex-1 py-4 px-6 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-700 transition-all shadow-lg shadow-red-600/20 disabled:opacity-50"
                                     >
-                                        {loading ? "Deleting..." : "Confirm Delete"}
+                                        {actionLoading ? "Deleting..." : "Confirm Delete"}
                                     </button>
                                 </div>
                             </div>
