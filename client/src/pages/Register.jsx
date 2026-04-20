@@ -1,15 +1,11 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineClose, AiOutlineGoogle } from "react-icons/ai";
-import image1 from "../assets/WOMEN-2.webp";
-import image2 from "../assets/WOMEN-3.jpg";
-import image3 from "../assets/WOMENENTRPRENERU-12.jpg";
 import { REGISTER_ROUTE } from "../utils/constants";
 import { toast } from "react-toastify";
 import { apiClient } from "../lib/api-clinet";
-import { auth } from "../utils/firebase"; // Import your Firebase auth
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { User, Mail, Lock, UserPlus, ArrowRight, ShieldCheck } from "lucide-react";
+import image1 from "../assets/WOMEN-2.webp";
 
 function Register() {
     const navigate = useNavigate();
@@ -20,20 +16,20 @@ function Register() {
     const [conformPassword, setConformPassword] = useState("");
 
     const validateForm = () => {
-        if (!email || !email.endsWith("@gmail.com")) {
-            toast.error("Invalid email");
+        if (!name || name.length < 2) {
+            toast.error("Name is too short");
             return false;
         }
-        if (!name) {
-            toast.error("Enter your name");
+        if (!email || !email.includes("@")) {
+            toast.error("Invalid email address");
             return false;
         }
-        if (!password) {
-            toast.error("Enter password");
+        if (password.length < 6) {
+            toast.error("Password must be at least 6 characters");
             return false;
         }
         if (password !== conformPassword) {
-            toast.error("Enter correct password");
+            toast.error("Passwords do not match");
             return false;
         }
         return true;
@@ -41,118 +37,151 @@ function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            try {
-                setRegisterLoading(true);
-                const response = await apiClient.post(REGISTER_ROUTE, { name, email, password }, { withCredentials: true });
-                if (!response.data.success) {
-                    toast.error(response.data.message);
-                    setRegisterLoading(false);
-                    return;
-                }
-                toast.success(response.data.message);
-                setRegisterLoading(false);
-                navigate("/auth/profile-setup");
-            } catch (error) {
-                console.log(error.message);
-                setRegisterLoading(false);
-            }
-        }
-    };
+        if (!validateForm()) return;
 
-    const handleGoogleSignUp = async () => {
-        const provider = new GoogleAuthProvider();
         try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            
-            // Extract user info
-            const userData = {
-                name: user.displayName,
-                email: user.email,
-                password: "your_default_password" // You can set a default password or handle it according to your needs
-            };
-            
-            // Send user data to your backend
-            const response = await apiClient.post(REGISTER_ROUTE, userData, { withCredentials: true });
+            setRegisterLoading(true);
+            const response = await apiClient.post(REGISTER_ROUTE, { name, email, password }, { withCredentials: true });
             if (!response.data.success) {
-                toast.error(response.data.message);
+                toast.error(response.data.message || "Registration failed");
+                setRegisterLoading(false);
                 return;
             }
-            toast.success("Successfully registered with Google!");
+            toast.success("Account created successfully!");
             navigate("/auth/profile-setup");
         } catch (error) {
-            console.error("Google Sign-In Error:", error);
-            toast.error("Failed to sign up with Google.");
+            toast.error(error.response?.data?.message || "Registration failed. Please try again.");
+        } finally {
+            setRegisterLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen">
-            <div className="fixed top-0 bottom-0 left-0 right-0 z-30 flex bg-black/20 backdrop-blur-sm lg:p-24 lg:px-28 xl:p-28 xl:pb-16 xl:px-80">
-                <AnimatePresence>
-                    <motion.div 
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0 }}
-                        transition={{ duration: 0.5, ease: "backInOut" }}
-                        className="relative z-50 flex flex-col flex-wrap items-center flex-1 overflow-hidden bg-white bg-gradient-to-t from-white via-white to-blue-100 rounded-xl"
-                    >
-                        <div className="flex flex-row items-center justify-end w-full">
-                            <Link to={"/"}><AiOutlineClose /></Link>
-                        </div>
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 pt-32 pb-20">
+            <div className="max-w-5xl w-full bg-white rounded-[3rem] shadow-2xl shadow-blue-900/10 overflow-hidden flex flex-col md:flex-row-reverse border border-slate-100">
+                
+                {/* Left Side: Form */}
+                <motion.div 
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex-1 p-8 md:p-16"
+                >
+                    <div className="mb-10 text-center md:text-left">
+                        <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Create Account</h1>
+                        <p className="text-slate-500 font-medium">Join our global network of female founders</p>
+                    </div>
 
-                        <img draggable="false" className="z-40 object-cover select-none pointer-events-none absolute left-[-10%] bottom-[-30%]" src={image2} alt="" />
-                        <img draggable="false" className="absolute z-40 hidden object-cover pointer-events-none select-none xl:block right-5 bottom-9 h-96" src={image3} alt="" />
-                        <img draggable="false" className="z-40 object-cover select-none pointer-events-none absolute right-[-10%] top-[-5%] h-96" src={image1} alt="" />
-
-                        <div className="flex-1 z-50 flex justify-center items-center flex-col p-2 gap-5 w-[350px]">
-                            <button onClick={handleGoogleSignUp} className="flex items-center justify-between w-full text-xl tracking-wider text-white transition duration-200 bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400">
-                                <div className="h-full px-2 py-2 text-blue-700 bg-white border border-black">
-                                    <AiOutlineGoogle />
-                                </div>
-                                <div className="flex items-center justify-center flex-1 text-sm">
-                                    Sign up with Google
-                                </div>
-                            </button>
-                            <span className="flex items-center w-full gap-1 text-sm capitalize"><hr className="flex-1 text-black" /> or use own credentials to register <hr className="flex-1" /></span>
-                            <form onSubmit={handleSubmit} className="flex flex-col w-full gap-3">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+                            <div className="relative">
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                                 <input
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    type="name"
-                                    placeholder="Name"
-                                    className="w-full p-2 transition duration-200 border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400"
+                                    type="text"
+                                    placeholder="Jane Doe"
+                                    className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium"
+                                    required
                                 />
+                            </div>
+                        </div>
+
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                            <div className="relative">
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                                 <input
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     type="email"
-                                    placeholder="Email"
-                                    className="w-full p-2 transition duration-200 border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400"
+                                    placeholder="jane@example.com"
+                                    className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium"
+                                    required
                                 />
-                                <input
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    type="password"
-                                    placeholder="Password"
-                                    className="w-full p-2 transition duration-200 border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400"
-                                />
-                                <input
-                                    value={conformPassword}
-                                    onChange={(e) => setConformPassword(e.target.value)}
-                                    type="password"
-                                    placeholder="Confirm Password"
-                                    className="w-full p-2 transition duration-200 border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white focus:border-blue-400"
-                                />
-                                <button type="submit" className="flex items-center justify-center w-full py-2 text-white bg-blue-500 hover:bg-blue-600">
-                                    {registerLoading ? <div className="w-[25px] h-[25px] rounded-full border-[2px] border-dotted border-gray-200 border-t-black animate-spin transition-all duration-200" /> : "Sign Up"}
-                                </button>
-                            </form>
-                            <span className="text-gray-600 cursor-pointer"> Already have an account, <Link to="/auth/login" className="text-blue-500 cursor-pointer hover:underline"> login here </Link> </span>
+                            </div>
                         </div>
-                    </motion.div>
-                </AnimatePresence>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Password</label>
+                                <div className="relative">
+                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                                    <input
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        type="password"
+                                        placeholder="••••••••"
+                                        className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Confirm</label>
+                                <div className="relative">
+                                    <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                                    <input
+                                        value={conformPassword}
+                                        onChange={(e) => setConformPassword(e.target.value)}
+                                        type="password"
+                                        placeholder="••••••••"
+                                        className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="pt-4">
+                            <button 
+                                type="submit" 
+                                disabled={registerLoading}
+                                className="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all active:scale-95 flex items-center justify-center gap-2"
+                            >
+                                {registerLoading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <>Create Account <UserPlus className="w-5 h-5" /></>}
+                            </button>
+                        </div>
+                    </form>
+
+                    <div className="mt-10 text-center">
+                        <p className="text-slate-500 text-sm">
+                            Already have an account?{" "}
+                            <Link to="/auth/login" className="text-blue-600 font-bold hover:underline">
+                                Log in instead
+                            </Link>
+                        </p>
+                    </div>
+                </motion.div>
+
+                {/* Right Side: Image/Branding */}
+                <motion.div 
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex-1 bg-blue-600 relative hidden lg:block"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 to-transparent z-10"></div>
+                    <img
+                        src={image1}
+                        className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-80"
+                        alt="Join WEN"
+                    />
+                    <div className="absolute inset-0 p-16 flex flex-col justify-center z-20">
+                        <div className="w-12 h-1 w-12 bg-white mb-6 rounded-full"></div>
+                        <h2 className="text-4xl font-bold text-white mb-4 leading-tight">Your Journey Starts Here.</h2>
+                        <p className="text-blue-50 leading-relaxed text-lg">
+                            Gain access to resources, mentorship, and a community that believes in your potential.
+                        </p>
+                        <div className="mt-8 flex items-center gap-4">
+                            <div className="flex -space-x-3">
+                                {[1,2,3,4].map(n => (
+                                    <img key={n} src={`https://i.pravatar.cc/100?img=${n+20}`} className="w-10 h-10 rounded-full border-2 border-blue-600" alt="user" />
+                                ))}
+                            </div>
+                            <span className="text-blue-50 text-sm font-medium">Join 2,000+ members</span>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
         </div>
     );

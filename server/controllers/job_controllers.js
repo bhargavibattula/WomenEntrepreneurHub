@@ -260,7 +260,7 @@ export const getJobByUserId = async (req, res) => {
 
         const jobs = await Job.find({ 'employer': userId });
 
-        res.status(200).json(jobs);
+        res.status(200).json({ success: true, jobs });
     } catch (error) {
         console.error(error);
 

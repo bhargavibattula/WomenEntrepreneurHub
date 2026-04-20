@@ -182,7 +182,7 @@ export const getEventsByUserIdUpcoming = async (req, res) => {
     const userId = req.userId;
     try {
         const upcomingEvents = await Event.find({ createdBy: userId, date: { $gt: new Date() } }).sort({ date: 1 });
-        res.status(200).json(upcomingEvents);
+        res.status(200).json({ success: true, events: upcomingEvents });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error fetching upcoming events', error: error.message });
@@ -193,7 +193,7 @@ export const getEventsByUserIdCompleted = async (req, res) => {
     const userId = req.userId;
     try {
         const completedEvents = await Event.find({ createdBy: userId, date: { $lt: new Date() } }).sort({ date: -1 });
-        res.status(200).json(completedEvents);
+        res.status(200).json({ success: true, events: completedEvents });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error fetching completed events', error: error.message });
