@@ -23,17 +23,18 @@ const JobDetails = React.lazy(() => import('./pages/JobDetail'))
 const YourBusinesses = React.lazy(() => import('./pages/YourBusinesses'))
 const YourEvent = React.lazy(() => import('./pages/YourEvent'))
 const YourJobs = React.lazy(() => import('./pages/YourJobs'))
+const YourResource = React.lazy(() => import('./pages/YourResource'));
+const CreateJob = React.lazy(() => import('./pages/CreateJob'));
+const ViewApplications = React.lazy(() => import('./pages/ViewApplications'));
 const JSTLMeet = React.lazy(() => import("./pages/EventPage"))
 const Settings = React.lazy(() => import("./pages/Settings"))
+const GetLocation = React.lazy(() => import('./components/GetLocation'));
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProfileSetup from './pages/ProfileSetup';
 import Profile from './pages/Profile';
-import YourResource from './pages/YourResource';
 import EventPage from './pages/EventPage';
-import CreateJob from './pages/CreateJob';
-import GetLocation from './components/GetLocation';
 
 const AuthRoute = ({ children }) => {
   const { userInfo } = useStore();
@@ -106,6 +107,7 @@ function App() {
 
             <Route path='/job' element={<JobList />} />
             <Route path='/job/create' element={<PrivateRoute><VisitorPrivateRoute><CreateJob /></VisitorPrivateRoute></PrivateRoute>} />
+            <Route path='/job/applications/:id' element={<PrivateRoute><VisitorPrivateRoute><ViewApplications /></VisitorPrivateRoute></PrivateRoute>} />
             <Route path='/job/:id' element={<JobDetails />} />
 
             <Route path='/resource/articles' element={<ResourceArticle />} />

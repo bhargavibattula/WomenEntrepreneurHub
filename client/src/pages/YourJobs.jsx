@@ -135,6 +135,14 @@ function YourJobs() {
 
                                     <div className="flex gap-3 w-full md:w-auto">
                                         <Link 
+                                            to={`/job/applications/${job._id}`}
+                                            className="flex-1 md:flex-none p-4 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-100 transition-all flex items-center justify-center gap-2 font-bold text-sm"
+                                            title="View Applications"
+                                        >
+                                            <AiOutlineBriefcase className="text-xl" />
+                                            <span className="hidden lg:inline">Applicants</span>
+                                        </Link>
+                                        <Link 
                                             to="/job/create" 
                                             state={{ editMode: true, jobData: job }}
                                             className="flex-1 md:flex-none p-4 bg-slate-50 text-slate-600 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition-all flex items-center justify-center"

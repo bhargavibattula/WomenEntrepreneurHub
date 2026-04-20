@@ -191,15 +191,18 @@ export const updateStatus = async (req , res) => {
             return res.status(404).json({ message: "Application not found", success: false });
         }
         
-        const application =  job.applications.id(applicationId)
+        const application =  job.applications.id(applicationId);
         
         if (!application) {
             return res.status(404).json({ message: "Application not found", success: false });
         }
 
-        application.status = status;
+        if (job.employer.toString() !== req.userId && req.role !== 'admin') {
+            return res.status(403).json({ message: "You are not authorized to update this application", success: false });
+        }
 
-        await job.save() ;
+        application.status = status;
+        await job.save();
 
 
         return res.status(200).json({message : "status updated successfully" , success : true})

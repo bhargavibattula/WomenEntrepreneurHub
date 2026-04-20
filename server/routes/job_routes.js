@@ -31,5 +31,5 @@ router.get('/applications/:id' , verifyToken ,getApplicationsForJob )
 router.get('/get-jobs/:district' , verifyToken ,getJobByLoc)
 router.patch('/update-job/:id', verifyToken, updateJob)
 router.delete('/delete-job/:id', verifyToken, deleteJobById)
-router.put('/applications/:applicationId' , updateStatus)
+router.put('/applications/:applicationId' , verifyToken, updateStatus)
 export default router;
