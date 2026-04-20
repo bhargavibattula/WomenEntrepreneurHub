@@ -84,7 +84,7 @@ function App() {
   return (
     <div className=' bg-gradient-to-t from-white via-white to-blue-100'>
       <Navbar />
-      <main className="pt-28 min-h-screen">
+      <main className="min-h-screen flex flex-col">
         <Suspense fallback={<>Component loading....</>}>
           <Routes>
             <Route path="/loc" element={<GetLocation />} />

@@ -122,7 +122,7 @@ const JobDetail = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-28 pb-20 p-6">
+        <div className="min-h-screen bg-slate-50 pt-20 md:pt-28 pb-20 p-4 md:p-6">
             <div className="max-w-5xl mx-auto">
                 <Link to="/job" className="inline-flex items-center gap-2 text-slate-500 font-bold hover:text-blue-600 transition-colors mb-8">
                     <ArrowLeft className="w-5 h-5" /> Back to Jobs

@@ -86,7 +86,7 @@ function YourEvent() {
     const activeList = section === 0 ? events : completedEvents;
 
     return (
-        <div className='min-h-screen bg-slate-50 p-6 pt-28 pb-20'>
+        <div className='min-h-screen bg-slate-50 p-4 md:p-6 pt-20 md:pt-28 pb-20'>
             <div className='max-w-7xl mx-auto'>
                 <div className='flex gap-5 flex-col'>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
