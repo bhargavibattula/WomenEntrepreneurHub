@@ -29,7 +29,7 @@ function ResourceArticlePage() {
     } , [])
     
   return (
-    <div className="min-h-screen bg-white flex  flex-wrap justify-center">
+    <div className="min-h-screen bg-white flex flex-wrap justify-center pt-20 md:pt-28">
         <div className='bg-white p-5 max-w-[700px] min-w-[350px] flex flex-col items-center gap-5'>
             <div className="flex gap-5">
                 <div className="flex flex-col gap-3">

@@ -43,7 +43,7 @@ const JobBoard = () => {
   }, []);
 
   return (
-    <div>
+    <div className="pt-28 p-10">
       {error && <p>Error: {error}</p>}
       {location ? (
         <p>Your location: Latitude: {location.lat}, Longitude: {location.lng}</p>

@@ -73,7 +73,7 @@ const JobList = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative pt-20 pb-32 overflow-hidden bg-slate-900">
+      <div className="relative pt-20 md:pt-28 pb-32 overflow-hidden bg-slate-900">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-slate-900"></div>
 

@@ -66,7 +66,7 @@ function Business() {
   }, [searchTerm, category]);
 
   return (
-    <div>
+    <div className="pt-20 md:pt-28">
       <div className='h-[300px] flex items-center justify-center'>
         <div className='flex flex-col items-center justify-center w-full p-5 bg-white/20 backdrop-blur-sm'>
           <motion.span
