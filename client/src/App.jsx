@@ -29,6 +29,7 @@ const ViewApplications = React.lazy(() => import('./pages/ViewApplications'));
 const JSTLMeet = React.lazy(() => import("./pages/EventPage"))
 const Settings = React.lazy(() => import("./pages/Settings"))
 const GetLocation = React.lazy(() => import('./components/GetLocation'));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -117,7 +118,7 @@ function App() {
             <Route path='/events/all-events' element={<Events />} />
             <Route path='/events/host-event' element={<PrivateRoute> <VisitorPrivateRoute><HostEvent /></VisitorPrivateRoute> </PrivateRoute>} />
             <Route path='/event/:id' element={<PrivateRoute><EventPage /></PrivateRoute>} />
-            <Route path='*' element={<>404 NOT FOUND</>} />
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>
