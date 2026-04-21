@@ -32,44 +32,47 @@ const Footer = () => {
           </div>
 
           {/* Useful Links */}
-          <div className="lg:col-span-2 lg:col-start-6">
+          <div className="lg:col-span-2">
             <h3 className="text-sm font-bold text-black uppercase tracking-wider mb-6">Explore</h3>
             <ul className="space-y-4">
-              {['Home', 'Events', 'Blog', 'Gallery', 'Support'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li><Link to="/" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Home</Link></li>
+              <li><Link to="/profile" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Profile</Link></li>
+              <li><Link to="/settings" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Settings</Link></li>
+              <li><Link to="/chat-community" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Community Chat</Link></li>
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* Business & Events */}
+          <div className="lg:col-span-2">
+            <h3 className="text-sm font-bold text-black uppercase tracking-wider mb-6">Business</h3>
+            <ul className="space-y-4">
+              <li><Link to="/business/all-business" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">All Businesses</Link></li>
+              <li><Link to="/business/post-business" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Post Business</Link></li>
+              <li><Link to="/your-businesses" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Your Businesses</Link></li>
+              <li><Link to="/events/all-events" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">All Events</Link></li>
+              <li><Link to="/events/host-event" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Host Event</Link></li>
+            </ul>
+          </div>
+
+          {/* Resources & Careers */}
           <div className="lg:col-span-2">
             <h3 className="text-sm font-bold text-black uppercase tracking-wider mb-6">Resources</h3>
             <ul className="space-y-4">
-              {['Articles', 'Webinars', 'Mentorship', 'Workshops'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li><Link to="/resource/articles" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Articles</Link></li>
+              <li><Link to="/resource/post-articles" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Post Article</Link></li>
+              <li><Link to="/job" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Available Jobs</Link></li>
+              <li><Link to="/job/create" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Create Job</Link></li>
             </ul>
           </div>
 
-          {/* Community */}
-          <div className="lg:col-span-3">
-            <h3 className="text-sm font-bold text-black uppercase tracking-wider mb-6">Community</h3>
+          {/* Management & Support */}
+          <div className="lg:col-span-2">
+            <h3 className="text-sm font-bold text-black uppercase tracking-wider mb-6">Management</h3>
             <ul className="space-y-4">
-              {['Discussion Boards', 'Event Calendar', 'Mentorship Programs', 'Resource Library'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li><Link to="/your-events" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Your Events</Link></li>
+              <li><Link to="/your-resources" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Your Resources</Link></li>
+              <li><Link to="/your-jobs" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Your Jobs</Link></li>
+              <li><Link to="/" className="text-blue-700 hover:text-blue-900 hover:underline transition-all text-sm font-medium capitalize">Help Center</Link></li>
             </ul>
           </div>
 
