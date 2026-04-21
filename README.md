@@ -133,6 +133,10 @@ Efficient candidate review and status management for founders.
 Deep-level control over platform assets and community engagement.
 <img src="client/src/assets/sc15.png" alt="Admin View" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
 
+### 💔 16. Custom 404 Error Experience
+A thematic and empathetic error handling page with a custom sadface animation.
+<img src="client/src/assets/sc16.png" alt="404 Error Page" width="100%" style="border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 40px;" />
+
 ---
 
 ## 🔒 Security & RBAC
